@@ -114,14 +114,14 @@ export function VirtualAccountsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Account Name</TableHead>
-                    <TableHead className="hidden md:table-cell">Owned by</TableHead>
-                    <TableHead className="hidden lg:table-cell">Date/Time Created</TableHead>
-                    <TableHead className="hidden lg:table-cell">Email</TableHead>
-                    <TableHead className="hidden xl:table-cell">Phone Number</TableHead>
-                    <TableHead className="hidden xl:table-cell">Settlement Wallet</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className="text-center">Account Name</TableHead>
+                    <TableHead className="hidden text-center md:table-cell">Owned by</TableHead>
+                    <TableHead className="hidden text-center lg:table-cell">Date/Time Created</TableHead>
+                    <TableHead className="hidden text-center lg:table-cell">Email</TableHead>
+                    <TableHead className="hidden text-center xl:table-cell">Phone Number</TableHead>
+                    <TableHead className="hidden text-center xl:table-cell">Settlement Wallet</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
