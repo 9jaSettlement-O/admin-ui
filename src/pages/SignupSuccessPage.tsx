@@ -4,7 +4,7 @@ import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 
-const REDIRECT_DELAY_MS = 3000;
+const REDIRECT_DELAY_MS = 20000;
 
 export function SignupSuccessPage() {
   const navigate = useNavigate();
@@ -20,25 +20,27 @@ export function SignupSuccessPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8 text-center">
-        <Logo className="mb-6" />
+      <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center">
+          <Logo className="mb-6" />
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
             <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
-          <h1 className="text-2xl font-semibold">Account Created Successfully</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <h1 className="mt-6 text-center text-2xl font-semibold">
+            Account Created Successfully
+          </h1>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
             Your admin account has been set up. You can now sign in with your
             email, new password, and 2FA code.
           </p>
           {email && (
-            <p className="mt-1 text-sm font-medium text-muted-foreground">
+            <p className="mt-1 text-center text-sm font-medium text-muted-foreground">
               {email}
             </p>
           )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 text-center">
           <Button asChild className="w-full">
             <Link to="/">Go to Admin Login</Link>
           </Button>
