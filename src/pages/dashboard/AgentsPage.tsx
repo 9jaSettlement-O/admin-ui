@@ -24,6 +24,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -34,28 +35,89 @@ import { shouldUseMockService } from "@/lib/config";
 import { useAgents } from "@/hooks/use-mock-data";
 import { mockAgents, mockAgentTiers } from "@/_data/mock-data";
 
-const agentStats = [
-  { name: "Total Agents", value: "342" },
-  { name: "Total Transactions", value: "12.4K" },
-  { name: "Total Volume (CAD)", value: "₦2.4M" },
-  { name: "Total Payouts (₦)", value: "₦184.5K" },
-];
+type AgentPeriod = "today" | "week" | "month" | "year" | "custom";
+
+const PERIOD_LABELS: Record<AgentPeriod, string> = {
+  today: "Today",
+  week: "This week",
+  month: "This month",
+  year: "This year",
+  custom: "Custom range",
+};
+
+function isDateInAgentPeriod(
+  dateStr: string,
+  period: AgentPeriod,
+  customStart?: string,
+  customEnd?: string,
+  refDate?: Date
+): boolean {
+  const date = new Date(dateStr);
+  const now = refDate ?? new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+  switch (period) {
+    case "today":
+      return dateStr === todayStr;
+    case "week": {
+      const weekAgo = new Date(today);
+      weekAgo.setDate(weekAgo.getDate() - 7);
+      return date >= weekAgo && date <= new Date(today.getTime() + 86400000);
+    }
+    case "month": {
+      const monthAgo = new Date(today);
+      monthAgo.setMonth(monthAgo.getMonth() - 1);
+      return date >= monthAgo && date <= new Date(today.getTime() + 86400000);
+    }
+    case "year": {
+      const yearAgo = new Date(today);
+      yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+      return date >= yearAgo && date <= new Date(today.getTime() + 86400000);
+    }
+    case "custom":
+      if (!customStart || !customEnd) return true;
+      return dateStr >= customStart && dateStr <= customEnd;
+    default:
+      return true;
+  }
+}
 
 type TabType = "overview" | "tiers";
 
 export function AgentsPage() {
   const useMock = shouldUseMockService();
-  const { data: agentsFromQuery, isLoading } = useAgents();
+  const { data: agentsFromQuery, isLoading, isError } = useAgents();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [searchTerm, setSearchTerm] = useState("");
   const [showCreateTierModal, setShowCreateTierModal] = useState(false);
+  const [period, setPeriod] = useState<AgentPeriod>("month");
+  const [showCustomRange, setShowCustomRange] = useState(false);
+  const [customStart, setCustomStart] = useState("");
+  const [customEnd, setCustomEnd] = useState("");
   const [tiers, setTiers] = useState(mockAgentTiers);
 
-  const agents = useMock ? (agentsFromQuery ?? mockAgents) : mockAgents;
+  // Use dummy data when API is not available (mock mode off), fails, or returns empty
+  const agents =
+    useMock && !isError && agentsFromQuery != null && Array.isArray(agentsFromQuery) && agentsFromQuery.length > 0
+      ? agentsFromQuery
+      : mockAgents;
   const tiersData = tiers;
-  const filteredAgents = (Array.isArray(agents) ? agents : []).filter((agent) =>
-    agent.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const agentList = Array.isArray(agents) ? agents : [];
+
+  const filteredAgents = agentList.filter((agent) => {
+    const joinedAt = (agent as { joinedAt?: string }).joinedAt;
+    const matchesSearch = agent.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesPeriod = !joinedAt || isDateInAgentPeriod(joinedAt, period, customStart, customEnd);
+    return matchesSearch && matchesPeriod;
+  });
+
+  const agentStats = [
+    { name: "Total Agents", value: String(filteredAgents.length) },
+    { name: "Total Transactions", value: String(filteredAgents.reduce((s, a) => s + a.totalTransactions, 0)) },
+    { name: "Total Volume (CAD)", value: `₦${filteredAgents.reduce((s, a) => s + a.totalVolumeCAD, 0).toLocaleString()}` },
+    { name: "Total Payouts (₦)", value: `₦${filteredAgents.reduce((s, a) => s + a.lifetimeEarnings, 0).toLocaleString()}` },
+  ];
 
   const handleCreateTier = (tierData: {
     tierName: string;
@@ -73,6 +135,18 @@ export function AgentsPage() {
     setShowCreateTierModal(false);
   };
 
+  const handlePeriodChange = (value: string) => {
+    if (value === "custom") setShowCustomRange(true);
+    else setPeriod(value as AgentPeriod);
+  };
+
+  const handleApplyCustomRange = () => {
+    if (customStart && customEnd) {
+      setPeriod("custom");
+      setShowCustomRange(false);
+    }
+  };
+
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <div className="flex items-center justify-between">
@@ -80,6 +154,18 @@ export function AgentsPage() {
           <h2 className="text-3xl font-bold tracking-tight">Agents</h2>
           <p className="text-muted-foreground">Agents referring Nigerian diaspora for CAD ↔ NGN remittance</p>
         </div>
+        <Select value={period} onValueChange={handlePeriodChange}>
+          <SelectTrigger className="w-[160px]">
+            <SelectValue placeholder="Date range" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="today">{PERIOD_LABELS.today}</SelectItem>
+            <SelectItem value="week">{PERIOD_LABELS.week}</SelectItem>
+            <SelectItem value="month">{PERIOD_LABELS.month}</SelectItem>
+            <SelectItem value="year">{PERIOD_LABELS.year}</SelectItem>
+            <SelectItem value="custom">{PERIOD_LABELS.custom}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabType)} className="space-y-4">
@@ -233,6 +319,33 @@ export function AgentsPage() {
           />
         </TabsContent>
       </Tabs>
+
+      <Dialog open={showCustomRange} onOpenChange={setShowCustomRange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Custom Date Range</DialogTitle>
+            <DialogDescription>Select start and end date for agent summary data</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="agent-start">Start Date</Label>
+              <Input id="agent-start" type="date" value={customStart} onChange={(e) => setCustomStart(e.target.value)} />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="agent-end">End Date</Label>
+              <Input id="agent-end" type="date" value={customEnd} onChange={(e) => setCustomEnd(e.target.value)} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCustomRange(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleApplyCustomRange} disabled={!customStart || !customEnd}>
+              Apply
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

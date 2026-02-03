@@ -157,6 +157,7 @@ export const mockTransactions = [
   { id: "123461", userEmail: "amara.nwosu@example.com", type: "Transfer", sourceAmount: "300 CAD", destinationAmount: "₦375,000", status: "Completed", date: "2023-05-20" },
 ];
 
+/** Dummy agents for Agents List & Performance when API is not available */
 export const mockAgents = [
   {
     id: "1",
@@ -165,6 +166,7 @@ export const mockAgents = [
     totalVolumeCAD: 125000,
     lifetimeEarnings: 9375,
     earningsThisWeek: 450,
+    joinedAt: "2024-01-15",
   },
   {
     id: "2",
@@ -173,6 +175,79 @@ export const mockAgents = [
     totalVolumeCAD: 95000,
     lifetimeEarnings: 7600,
     earningsThisWeek: 320,
+    joinedAt: "2024-02-20",
+  },
+  {
+    id: "3",
+    email: "agent3@example.com",
+    totalTransactions: 312,
+    totalVolumeCAD: 168000,
+    lifetimeEarnings: 13440,
+    earningsThisWeek: 890,
+    joinedAt: "2025-01-28",
+  },
+  {
+    id: "4",
+    email: "agent4@example.com",
+    totalTransactions: 98,
+    totalVolumeCAD: 42000,
+    lifetimeEarnings: 3360,
+    earningsThisWeek: 210,
+    joinedAt: "2025-02-02",
+  },
+  {
+    id: "5",
+    email: "chioma.okafor@remit.ng",
+    totalTransactions: 421,
+    totalVolumeCAD: 215000,
+    lifetimeEarnings: 17200,
+    earningsThisWeek: 1200,
+    joinedAt: "2024-06-10",
+  },
+  {
+    id: "6",
+    email: "adebayo.yusuf@cadngn.com",
+    totalTransactions: 156,
+    totalVolumeCAD: 78000,
+    lifetimeEarnings: 6240,
+    earningsThisWeek: 380,
+    joinedAt: "2024-09-05",
+  },
+  {
+    id: "7",
+    email: "funke.adeleke@example.com",
+    totalTransactions: 534,
+    totalVolumeCAD: 287000,
+    lifetimeEarnings: 22960,
+    earningsThisWeek: 1650,
+    joinedAt: "2024-03-12",
+  },
+  {
+    id: "8",
+    email: "tunde.bakare@nigeria-remit.ca",
+    totalTransactions: 89,
+    totalVolumeCAD: 45000,
+    lifetimeEarnings: 3600,
+    earningsThisWeek: 180,
+    joinedAt: "2025-01-15",
+  },
+  {
+    id: "9",
+    email: "amaka.ibe@example.com",
+    totalTransactions: 267,
+    totalVolumeCAD: 142000,
+    lifetimeEarnings: 11360,
+    earningsThisWeek: 720,
+    joinedAt: "2024-07-22",
+  },
+  {
+    id: "10",
+    email: "obinna.nwankwo@cad2ngn.com",
+    totalTransactions: 198,
+    totalVolumeCAD: 99500,
+    lifetimeEarnings: 7960,
+    earningsThisWeek: 490,
+    joinedAt: "2024-11-08",
   },
 ];
 
