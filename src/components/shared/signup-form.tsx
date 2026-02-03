@@ -11,7 +11,14 @@ import { mockRegister } from "@/services/mock";
 import { api } from "@/api";
 import storage from "@/utils/storage.util";
 
-export function SignupForm() {
+interface SignupFormProps {
+  /** When true, use onSuccess callback instead of navigating */
+  embedded?: boolean;
+  /** Called with email when step 1 succeeds (embedded mode only) */
+  onSuccess?: (email: string) => void;
+}
+
+export function SignupForm({ embedded = false, onSuccess }: SignupFormProps) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +45,10 @@ export function SignupForm() {
         : await api.auth.register({ email, password });
 
       if (!res.error) {
-        if (useMock) {
+        if (embedded && onSuccess) {
+          toast.success("Temporary password accepted. Set your new password.");
+          onSuccess(email);
+        } else if (useMock) {
           toast.success("Temporary password accepted. Set your new password.");
           navigate("/auth/set-password", { state: { email } });
         } else {

@@ -87,8 +87,8 @@ export function SetPasswordPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="new-password">New Password</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="new-password" className="text-sm">New Password</Label>
               <div className="relative">
                 <Input
                   id="new-password"
@@ -115,10 +115,11 @@ export function SetPasswordPage() {
                   <span className="sr-only">Toggle password visibility</span>
                 </Button>
               </div>
+              <PasswordRequirements password={newPassword} />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm Password</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="confirm-password" className="text-sm">Confirm Password</Label>
               <div className="relative">
                 <Input
                   id="confirm-password"
@@ -145,11 +146,6 @@ export function SetPasswordPage() {
                   <span className="sr-only">Toggle password visibility</span>
                 </Button>
               </div>
-            </div>
-
-            <div className="rounded-md border bg-muted/30 p-4">
-              <p className="mb-3 text-sm font-medium">Password Requirements</p>
-              <PasswordRequirements password={newPassword} />
             </div>
           </div>
 

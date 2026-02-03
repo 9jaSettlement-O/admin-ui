@@ -1,8 +1,6 @@
+import { Navigate } from "react-router-dom";
 import { LoginPage } from "@/pages/LoginPage";
-import { SignupPage } from "@/pages/SignupPage";
-import { SetPasswordPage } from "@/pages/SetPasswordPage";
-import { Setup2FAPage } from "@/pages/Setup2FAPage";
-import { SignupSuccessPage } from "@/pages/SignupSuccessPage";
+import { AdminOnboardingFlow } from "@/pages/AdminOnboardingFlow";
 import { ForgotPasswordPage } from "@/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "@/pages/ResetPasswordPage";
 import type { RouteType } from "@/utils/interfaces.util";
@@ -14,19 +12,19 @@ export const publicRoutes: RouteType[] = [
   },
   {
     path: "/auth/signup",
-    element: <SignupPage />,
+    element: <AdminOnboardingFlow />,
   },
   {
     path: "/auth/set-password",
-    element: <SetPasswordPage />,
+    element: <Navigate to="/auth/signup" replace />,
   },
   {
     path: "/auth/setup-2fa",
-    element: <Setup2FAPage />,
+    element: <Navigate to="/auth/signup" replace />,
   },
   {
     path: "/auth/signup-success",
-    element: <SignupSuccessPage />,
+    element: <Navigate to="/auth/signup" replace />,
   },
   {
     path: "/auth/forgot-password",
