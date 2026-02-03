@@ -162,12 +162,12 @@ export const mockSettlements = [
 
 /** Transactions: CAD ↔ NGN (primary), multicurrency in v2 */
 export const mockTransactions = [
-  { id: "123456", userEmail: "chidi.okafo@example.com", type: "Send", sourceAmount: "1,000 CAD", destinationAmount: "₦1,250,000", status: "Completed", date: "2023-05-22" },
-  { id: "123457", userEmail: "amara.nwosu@example.com", type: "Receive", sourceAmount: "500 CAD", destinationAmount: "₦625,000", status: "Pending", date: "2023-05-22" },
-  { id: "123458", userEmail: "seun.adeyemi@example.com", type: "Send", sourceAmount: "750 CAD", destinationAmount: "₦937,500", status: "Completed", date: "2023-05-21" },
-  { id: "123459", userEmail: "ngozi.eze@example.com", type: "Send", sourceAmount: "2,000 CAD", destinationAmount: "₦2,500,000", status: "Completed", date: "2023-05-21" },
-  { id: "123460", userEmail: "chidi.okafo@example.com", type: "Receive", sourceAmount: "1,500 CAD", destinationAmount: "₦1,875,000", status: "Failed", date: "2023-05-20" },
-  { id: "123461", userEmail: "amara.nwosu@example.com", type: "Send", sourceAmount: "300 CAD", destinationAmount: "₦375,000", status: "Completed", date: "2023-05-20" },
+  { id: "123456", userEmail: "chidi.okafo@example.com", type: "Deposit", sourceAmount: "1,000 CAD", destinationAmount: "₦1,250,000", status: "Completed", date: "2023-05-22" },
+  { id: "123457", userEmail: "amara.nwosu@example.com", type: "Withdrawal", sourceAmount: "500 CAD", destinationAmount: "₦625,000", status: "Pending", date: "2023-05-22" },
+  { id: "123458", userEmail: "seun.adeyemi@example.com", type: "Transfer", sourceAmount: "750 CAD", destinationAmount: "₦937,500", status: "Completed", date: "2023-05-21" },
+  { id: "123459", userEmail: "ngozi.eze@example.com", type: "Deposit", sourceAmount: "2,000 CAD", destinationAmount: "₦2,500,000", status: "Completed", date: "2023-05-21" },
+  { id: "123460", userEmail: "chidi.okafo@example.com", type: "Withdrawal", sourceAmount: "1,500 CAD", destinationAmount: "₦1,875,000", status: "Failed", date: "2023-05-20" },
+  { id: "123461", userEmail: "amara.nwosu@example.com", type: "Transfer", sourceAmount: "300 CAD", destinationAmount: "₦375,000", status: "Completed", date: "2023-05-20" },
 ];
 
 export const mockAgents = [

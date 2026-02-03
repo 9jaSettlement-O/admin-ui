@@ -153,7 +153,7 @@ export function TransactionsPage() {
     return matchesSearch && matchesType && matchesStatus && matchesPeriod;
   });
 
-  const types = [...new Set(txList.map((t) => t.type))];
+  const TRANSACTION_TYPES = ["Deposit", "Withdrawal", "Transfer"];
   const statuses = [...new Set(txList.map((t) => t.status))];
 
   return (
@@ -210,7 +210,7 @@ export function TransactionsPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Types</SelectItem>
-                  {types.map((type) => (
+                  {TRANSACTION_TYPES.map((type) => (
                     <SelectItem key={type} value={type}>
                       {type}
                     </SelectItem>
