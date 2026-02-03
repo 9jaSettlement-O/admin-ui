@@ -70,35 +70,45 @@ export async function mockLogin(payload: LoginDTO): Promise<IAPIResponse> {
 }
 
 /**
- * Mock signup - accepts any data, simulates account creation.
+ * Mock signup step 1 - validates email + temporary password.
+ * Does NOT store auth. User proceeds to Set New Password (step 2).
  */
 export async function mockRegister(
   payload: RegisterUserDTO
 ): Promise<IAPIResponse> {
   await delay();
 
-  const mockUserId = `mock_admin_${Date.now()}`;
-  // Token must have 3 dot-separated parts to pass storage.checkToken() (JWT format)
-  const tokenPayload = btoa(JSON.stringify({ sub: mockUserId, email: payload.email }));
-  const mockToken = `mock.${tokenPayload}.${Math.random().toString(36).slice(2)}`;
+  if (!payload.email?.trim() || !payload.password?.trim()) {
+    return {
+      error: true,
+      data: null,
+      message: "Email and temporary password are required.",
+      errors: [],
+      status: 400,
+    };
+  }
 
-  storage.storeAuth(mockToken, mockUserId, "admin", payload.email);
+  if (payload.password.length < 8) {
+    return {
+      error: true,
+      data: null,
+      message: "Temporary password must be at least 8 characters.",
+      errors: [],
+      status: 400,
+    };
+  }
 
   return {
     error: false,
-    data: {
-      user: {
-        id: mockUserId,
-        email: payload.email,
-        type: "admin",
-      },
-    },
-    message: "Account created successfully",
-    token: mockToken,
+    data: { email: payload.email },
+    message: "Temporary password accepted. Proceed to set your new password.",
     errors: [],
-    status: 201,
+    status: 200,
   };
 }
+
+/** Mock 6-digit code for 2FA setup completion. Use this in mock mode. */
+export const MOCK_2FA_SETUP_CODE = "123456";
 
 /**
  * Mock forgot password - always returns success (never reveals if email exists).

@@ -37,17 +37,24 @@ export function SignupForm() {
         ? await mockRegister({ email, password })
         : await api.auth.register({ email, password });
 
-      const token =
-        res.token ?? (res.data as { token?: string } | null)?.token;
-      const user = (res.data as { user?: { id?: string; email?: string; type?: string } } | null)?.user;
-
-      if (!res.error && token && (user || res.data)) {
-        const uid = user?.id ?? (res.data as { id?: string })?.id ?? "admin";
-        const role = user?.type ?? (res.data as { type?: string })?.type ?? "admin";
-        const userEmail = user?.email ?? (res.data as { email?: string })?.email ?? email;
-        storage.storeAuth(token, String(uid), role, userEmail);
-        toast.success("Account created successfully");
-        navigate("/dashboard");
+      if (!res.error) {
+        if (useMock) {
+          toast.success("Temporary password accepted. Set your new password.");
+          navigate("/auth/set-password", { state: { email } });
+        } else {
+          const token = res.token ?? (res.data as { token?: string } | null)?.token;
+          const user = (res.data as { user?: { id?: string; email?: string; type?: string } } | null)?.user;
+          if (token && (user || res.data)) {
+            const uid = user?.id ?? (res.data as { id?: string })?.id ?? "admin";
+            const role = user?.type ?? (res.data as { type?: string })?.type ?? "admin";
+            const userEmail = user?.email ?? (res.data as { email?: string })?.email ?? email;
+            storage.storeAuth(token, String(uid), role, userEmail);
+            toast.success("Account created successfully");
+            navigate("/dashboard");
+          } else {
+            navigate("/auth/set-password", { state: { email } });
+          }
+        }
       } else {
         setError(res.message || "Unable to create account. Please try again.");
       }
@@ -80,7 +87,7 @@ export function SignupForm() {
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="At least 8 characters"
+              placeholder="Enter temporary password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -114,7 +121,7 @@ export function SignupForm() {
       )}
 
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Creating account..." : "Create account"}
+        {isLoading ? "Verifying..." : "Continue"}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
