@@ -29,12 +29,23 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { TableSkeleton } from "@/components/shared/table-skeleton";
+import { StatusBadge } from "@/components/shared/status-badge";
 import { shouldUseMockService } from "@/lib/config";
 import { useUsers } from "@/hooks/use-mock-data";
 import { useDebounce } from "@/hooks/use-debounce";
 import { mockUsers } from "@/_data/mock-data";
 
 type UserPeriod = "today" | "week" | "month" | "year" | "custom";
+
+/** Normalize raw kycStatus to display status for Users page */
+const USER_KYC_STATUSES = ["Verified", "Awaiting KYC Review", "Unverified"] as const;
+type UserKycStatus = (typeof USER_KYC_STATUSES)[number];
+
+function normalizeKycStatus(raw: string): UserKycStatus {
+  if (raw === "Tier 1 Verified" || raw === "Tier 2 Verified") return "Verified";
+  if (raw === "Awaiting KYC Review") return "Awaiting KYC Review";
+  return "Unverified";
+}
 
 const PERIOD_LABELS: Record<UserPeriod, string> = {
   today: "Today",
@@ -66,24 +77,21 @@ export function UsersPage() {
       user.lastName.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
       user.email.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
       (user.phone ?? "").includes(debouncedSearch);
-    const matchesKyc = kycFilter === "all" || user.kycStatus === kycFilter;
+    const userStatus = normalizeKycStatus(user.kycStatus);
+    const matchesKyc = kycFilter === "all" || userStatus === kycFilter;
     const matchesCountry = countryFilter === "all" || user.country === countryFilter;
     return matchesSearch && matchesKyc && matchesCountry;
   });
 
   const totalUsers = userList.length;
-  const businessUsers = userList.filter((u) => (u as { userType?: string }).userType === "business").length;
-  const individualUsers = userList.filter((u) => (u as { userType?: string }).userType === "individual").length;
-  const agentUsers = userList.filter((u) => (u as { userType?: string }).userType === "agent").length;
-  const verifiedUsers = userList.filter((u) => u.kycStatus === "Tier 1 Verified" || u.kycStatus === "Tier 2 Verified").length;
-  const unverifiedUsers = userList.filter((u) => u.kycStatus === "Unverified" || u.kycStatus === "Awaiting KYC Review").length;
+  const verifiedUsers = userList.filter((u) => normalizeKycStatus(u.kycStatus) === "Verified").length;
+  const awaitingKycUsers = userList.filter((u) => normalizeKycStatus(u.kycStatus) === "Awaiting KYC Review").length;
+  const unverifiedUsers = userList.filter((u) => normalizeKycStatus(u.kycStatus) === "Unverified").length;
 
   const userStats = [
     { name: "Total Users", value: String(totalUsers) },
-    { name: "Business Users", value: String(businessUsers) },
-    { name: "Individual Users", value: String(individualUsers) },
-    { name: "Agent Users", value: String(agentUsers) },
     { name: "Verified Users", value: String(verifiedUsers) },
+    { name: "Awaiting KYC Review", value: String(awaitingKycUsers) },
     { name: "Unverified Users", value: String(unverifiedUsers) },
   ];
 
@@ -99,7 +107,6 @@ export function UsersPage() {
   ];
   const userCountries = [...new Set(userList.map((u) => u.country).filter(Boolean))];
   const countries = [...new Set([...SUPPORTED_COUNTRIES, ...userCountries])].sort();
-  const kycStatuses = [...new Set(userList.map((u) => u.kycStatus))];
 
   const handlePeriodChange = (value: string) => {
     if (value === "custom") setShowCustomRange(true);
@@ -133,7 +140,7 @@ export function UsersPage() {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {userStats.map((stat) => (
           <Card key={stat.name}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -167,7 +174,7 @@ export function UsersPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Statuses</SelectItem>
-                  {kycStatuses.map((status) => (
+                  {USER_KYC_STATUSES.map((status) => (
                     <SelectItem key={status} value={status}>
                       {status}
                     </SelectItem>
@@ -221,19 +228,7 @@ export function UsersPage() {
                         <TableCell className="hidden md:table-cell">{user.phone}</TableCell>
                         <TableCell className="hidden md:table-cell">{user.country}</TableCell>
                         <TableCell>
-                          <span
-                            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                              user.kycStatus === "Tier 2 Verified"
-                                ? "bg-green-100 text-green-800"
-                                : user.kycStatus === "Tier 1 Verified"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : user.kycStatus === "Awaiting KYC Review"
-                                    ? "bg-yellow-100 text-yellow-800"
-                                    : "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            {user.kycStatus}
-                          </span>
+                          <StatusBadge status={normalizeKycStatus(user.kycStatus)} variant="userKyc" />
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="outline" size="sm" asChild>
