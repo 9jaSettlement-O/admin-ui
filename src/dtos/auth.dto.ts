@@ -22,8 +22,9 @@ export interface ForgotPasswordDTO {
 }
 
 export interface ResetPasswordDTO {
-  email: string;
+  token: string;
   newPassword: string;
+  confirmPassword?: string;
 }
 
 export interface ChangePasswordDTO {
