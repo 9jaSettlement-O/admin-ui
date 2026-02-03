@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, CreditCard, CheckCircle, Clock, Store } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,10 +25,10 @@ import { useVirtualAccounts } from "@/hooks/use-mock-data";
 import { mockVirtualAccounts } from "@/_data/mock-data";
 
 const vaStats = [
-  { name: "Total Accounts", value: "1,523" },
-  { name: "Active Accounts", value: "1,412" },
-  { name: "Pending Verification", value: "89" },
-  { name: "Suspended", value: "22" },
+  { name: "Total Virtual Accounts", value: "1,523", icon: CreditCard },
+  { name: "Active Accounts", value: "1,412", icon: CheckCircle },
+  { name: "Expired Accounts", value: "89", icon: Clock },
+  { name: "Total Merchants", value: "22", icon: Store },
 ];
 
 export function VirtualAccountsPage() {
@@ -63,6 +63,7 @@ export function VirtualAccountsPage() {
           <Card key={stat.name}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{stat.name}</CardTitle>
+              <stat.icon className="h-4 w-4 shrink-0 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
