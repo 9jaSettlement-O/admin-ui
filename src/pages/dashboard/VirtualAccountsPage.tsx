@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, CreditCard, CheckCircle, Clock, Store } from "lucide-react";
+import { Search, CreditCard, CheckCircle, Clock, Store, Eye } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,7 +60,7 @@ export function VirtualAccountsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Virtual Accounts</h2>
-          <p className="text-muted-foreground">NGN virtual accounts for CAD remittance payouts</p>
+          <p className="text-muted-foreground">Monitor and manage merchant virtual accounts</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -152,7 +152,10 @@ export function VirtualAccountsPage() {
                           </TableCell>
                           <TableCell className="text-right">
                             <Button variant="outline" size="sm" asChild>
-                              <Link to={`/dashboard/virtual-accounts/${acc.id}`}>View</Link>
+                              <Link to={`/dashboard/virtual-accounts/${acc.id}`}>
+                                <Eye className="mr-2 h-4 w-4" />
+                                View Details
+                              </Link>
                             </Button>
                           </TableCell>
                         </TableRow>
