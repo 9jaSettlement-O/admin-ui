@@ -24,6 +24,11 @@ import { shouldUseMockService } from "@/lib/config";
 import { useVirtualAccounts } from "@/hooks/use-mock-data";
 import { mockVirtualAccounts } from "@/_data/mock-data";
 
+function formatSettlementWallet(wallet: string): string {
+  if (!wallet || wallet.length < 12) return wallet;
+  return `${wallet.slice(0, 6)}.....${wallet.slice(-5)}`;
+}
+
 const vaStats = [
   { name: "Total Virtual Accounts", value: "1,523", icon: CreditCard },
   { name: "Active Accounts", value: "1,412", icon: CheckCircle },
@@ -42,8 +47,8 @@ export function VirtualAccountsPage() {
     const matchesSearch =
       searchTerm === "" ||
       a.accountName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      a.accountNumber.includes(searchTerm) ||
-      (a.bankName ?? "").toLowerCase().includes(searchTerm.toLowerCase());
+      ((a as { ownedBy?: string }).ownedBy ?? "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ((a as { email?: string }).email ?? "").toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "all" || a.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -73,14 +78,14 @@ export function VirtualAccountsPage() {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Virtual Account List</CardTitle>
+          <CardTitle>Virtual Accounts Management</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex w-full items-center space-x-2 md:w-2/5">
               <Search className="h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search by account name, number, or bank..."
+                placeholder="Search by account name, merchant, or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="h-9"
@@ -110,9 +115,11 @@ export function VirtualAccountsPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Account Name</TableHead>
-                    <TableHead>Account Number</TableHead>
-                    <TableHead>Bank Name</TableHead>
-                    <TableHead>Currency</TableHead>
+                    <TableHead className="hidden md:table-cell">Owned by</TableHead>
+                    <TableHead className="hidden lg:table-cell">Date/Time Created</TableHead>
+                    <TableHead className="hidden lg:table-cell">Email</TableHead>
+                    <TableHead className="hidden xl:table-cell">Phone Number</TableHead>
+                    <TableHead className="hidden xl:table-cell">Settlement Wallet</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -120,30 +127,37 @@ export function VirtualAccountsPage() {
                 <TableBody>
                   {filteredAccounts.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="h-24 text-center">
+                      <TableCell colSpan={8} className="h-24 text-center">
                         No virtual accounts found.
                       </TableCell>
                     </TableRow>
                   ) : (
-                    filteredAccounts.map((acc) => (
-                      <TableRow key={acc.id} className="hover:bg-muted/50">
-                        <TableCell className="font-medium">{acc.accountName}</TableCell>
-                        <TableCell>{acc.accountNumber}</TableCell>
-                        <TableCell>{acc.bankName}</TableCell>
-                        <TableCell>{acc.currency}</TableCell>
-                        <TableCell>
-                          <StatusBadge
-                            status={acc.status}
-                            variant={acc.status === "Active" ? "account" : "transaction"}
-                          />
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="outline" size="sm" asChild>
-                            <Link to={`/dashboard/virtual-accounts/${acc.id}`}>View</Link>
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
+                    filteredAccounts.map((acc) => {
+                      const accExt = acc as typeof acc & { ownedBy?: string; dateCreated?: string; email?: string; phoneNumber?: string; settlementWallet?: string };
+                      return (
+                        <TableRow key={acc.id} className="hover:bg-muted/50">
+                          <TableCell className="font-medium">{acc.accountName}</TableCell>
+                          <TableCell className="hidden md:table-cell">{accExt.ownedBy ?? "—"}</TableCell>
+                          <TableCell className="hidden lg:table-cell">{accExt.dateCreated ?? "—"}</TableCell>
+                          <TableCell className="hidden lg:table-cell">{accExt.email ?? "—"}</TableCell>
+                          <TableCell className="hidden xl:table-cell">{accExt.phoneNumber ?? "—"}</TableCell>
+                          <TableCell className="hidden xl:table-cell font-mono text-xs">
+                            {accExt.settlementWallet ? formatSettlementWallet(accExt.settlementWallet) : "—"}
+                          </TableCell>
+                          <TableCell>
+                            <StatusBadge
+                              status={acc.status}
+                              variant={acc.status === "Active" ? "account" : "transaction"}
+                            />
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button variant="outline" size="sm" asChild>
+                              <Link to={`/dashboard/virtual-accounts/${acc.id}`}>View</Link>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
                   )}
                 </TableBody>
               </Table>

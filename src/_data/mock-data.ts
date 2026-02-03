@@ -149,9 +149,9 @@ export const mockBusinesses = [
 ];
 
 export const mockVirtualAccounts = [
-  { id: "1", accountName: "Chidi Okafor", accountNumber: "1234567890", bankName: "GTBank", currency: "NGN", status: "Active" },
-  { id: "2", accountName: "Amara Nwosu", accountNumber: "0987654321", bankName: "Access Bank", currency: "NGN", status: "Active" },
-  { id: "3", accountName: "Tech Solutions Ltd", accountNumber: "1122334455", bankName: "Zenith Bank", currency: "NGN", status: "Pending" },
+  { id: "1", accountName: "Chidi Okafor", ownedBy: "Chidi Okafor", dateCreated: "2023-05-15 09:30:00", email: "chidi.okafo@example.com", phoneNumber: "+1 416 555 0123", settlementWallet: "0X1234567890abcdef1234567890abcdef12348989", status: "Active" },
+  { id: "2", accountName: "Amara Nwosu", ownedBy: "Amara Nwosu", dateCreated: "2023-05-18 14:22:00", email: "amara.nwosu@example.com", phoneNumber: "+1 647 555 0456", settlementWallet: "0Xabcdef1234567890abcdef1234567890abcdef89", status: "Active" },
+  { id: "3", accountName: "Tech Solutions Ltd", ownedBy: "Tech Solutions Ltd", dateCreated: "2023-05-20 11:15:00", email: "tech@techsolutions.ng", phoneNumber: "+234 801 555 0789", settlementWallet: "0X9876543210fedcba9876543210fedcba98765898", status: "Pending" },
 ];
 
 export const mockSettlements = [
