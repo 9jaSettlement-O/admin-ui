@@ -16,46 +16,16 @@ export interface MockUserDetail {
   accountStatus?: string;
   dob?: string;
   address?: string;
+  kycIdUrl?: string;
 }
 
 /** Users: Nigerians resident in Canada (primary customer base for CAD ↔ NGN) */
 export const mockUsers = [
-  {
-    id: "1",
-    firstName: "Chidi",
-    lastName: "Okafor",
-    email: "chidi.okafo@example.com",
-    phone: "+1 416 555 0123",
-    country: "Canada",
-    kycStatus: "Tier 2 Verified",
-  },
-  {
-    id: "2",
-    firstName: "Amara",
-    lastName: "Nwosu",
-    email: "amara.nwosu@example.com",
-    phone: "+1 647 555 0456",
-    country: "Canada",
-    kycStatus: "Tier 1 Verified",
-  },
-  {
-    id: "3",
-    firstName: "Oluwaseun",
-    lastName: "Adeyemi",
-    email: "seun.adeyemi@example.com",
-    phone: "+1 905 555 0789",
-    country: "Canada",
-    kycStatus: "Awaiting KYC Review",
-  },
-  {
-    id: "4",
-    firstName: "Ngozi",
-    lastName: "Eze",
-    email: "ngozi.eze@example.com",
-    phone: "+1 514 555 0321",
-    country: "Canada",
-    kycStatus: "Unverified",
-  },
+  { id: "1", firstName: "Chidi", lastName: "Okafor", email: "chidi.okafo@example.com", phone: "+1 416 555 0123", country: "Canada", kycStatus: "Tier 2 Verified", userType: "individual" as const },
+  { id: "2", firstName: "Amara", lastName: "Nwosu", email: "amara.nwosu@example.com", phone: "+1 647 555 0456", country: "Canada", kycStatus: "Tier 1 Verified", userType: "business" as const },
+  { id: "3", firstName: "Oluwaseun", lastName: "Adeyemi", email: "seun.adeyemi@example.com", phone: "+1 905 555 0789", country: "Canada", kycStatus: "Awaiting KYC Review", userType: "individual" as const },
+  { id: "4", firstName: "Ngozi", lastName: "Eze", email: "ngozi.eze@example.com", phone: "+1 514 555 0321", country: "Canada", kycStatus: "Unverified", userType: "agent" as const },
+  { id: "5", firstName: "Emeka", lastName: "Okoli", email: "emeka@techsolutions.ng", phone: "+234 801 555 0111", country: "Nigeria", kycStatus: "Tier 2 Verified", userType: "business" as const },
 ];
 
 /** Extended user details - Nigerians resident in Canada */
@@ -72,6 +42,7 @@ export const mockUserDetails: MockUserDetail[] = [
     accountStatus: "Active",
     dob: "1985-06-15",
     address: "123 Yonge St, Toronto, ON M5C 1W4, Canada",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_1",
   },
   {
     id: "2",
@@ -85,6 +56,7 @@ export const mockUserDetails: MockUserDetail[] = [
     accountStatus: "Active",
     dob: "1990-03-22",
     address: "456 Bloor St W, Toronto, ON M5S 1X8, Canada",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_2",
   },
   {
     id: "3",
@@ -98,6 +70,7 @@ export const mockUserDetails: MockUserDetail[] = [
     accountStatus: "Active",
     dob: "1988-11-08",
     address: "78 King St E, Mississauga, ON L5A 1B2, Canada",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_3",
   },
   {
     id: "4",
@@ -110,6 +83,20 @@ export const mockUserDetails: MockUserDetail[] = [
     accountStatus: "Active",
     dob: "1992-07-14",
     address: "12 Rue Sainte-Catherine, Montreal, QC H2X 1Y4, Canada",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_4",
+  },
+  {
+    id: "5",
+    firstName: "Emeka",
+    lastName: "Okoli",
+    email: "emeka@techsolutions.ng",
+    phone: "+234 801 555 0111",
+    country: "Nigeria",
+    kycStatus: "Tier 2 Verified",
+    accountStatus: "Active",
+    dob: "1982-01-20",
+    address: "45 Marina, Lagos, Nigeria",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_5",
   },
 ];
 

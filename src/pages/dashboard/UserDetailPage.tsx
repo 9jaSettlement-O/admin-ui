@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Check, X } from "lucide-react";
+import { Check, X, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -36,6 +36,7 @@ export function UserDetailPage() {
   const useMock = shouldUseMockService();
   const [kycStatus, setKycStatus] = useState<string | null>(null);
   const [accountStatus, setAccountStatus] = useState<string | null>(null);
+  const [showApproveKycDialog, setShowApproveKycDialog] = useState(false);
 
   const { data: userFromQuery } = useQuery({
     queryKey: ["userDetail", id],
@@ -52,7 +53,10 @@ export function UserDetailPage() {
       }
     : undefined;
 
-  const handleApproveKYC = () => setKycStatus("Tier 2 Verified");
+  const handleApproveKYC = () => {
+    setKycStatus("Tier 2 Verified");
+    setShowApproveKycDialog(false);
+  };
   const handleBlockAccount = () => setAccountStatus("Blocked");
   const handleUnblockAccount = () => setAccountStatus("Active");
 
@@ -121,6 +125,19 @@ export function UserDetailPage() {
                 <p>{user.address}</p>
               </div>
             )}
+            {user.kycIdUrl && (
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">KYC ID</p>
+                <a
+                  href={user.kycIdUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                >
+                  View in Sumsub <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -145,14 +162,29 @@ export function UserDetailPage() {
             </div>
 
             <div className="flex flex-col gap-2 pt-4">
-              <Button
-                onClick={handleApproveKYC}
-                variant="outline"
-                className="w-full"
-                disabled={user.kycStatus === "Tier 2 Verified"}
-              >
-                <Check className="mr-2 h-4 w-4" /> Approve KYC
-              </Button>
+              {(user.kycStatus === "Awaiting KYC Review" || user.kycStatus === "PendingReview") && (
+                <>
+                  <AlertDialog open={showApproveKycDialog} onOpenChange={setShowApproveKycDialog}>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        <Check className="mr-2 h-4 w-4" /> Approve KYC
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Approve Tier 2 KYC</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to approve this user&apos;s Tier 2 KYC? This will grant them full access.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleApproveKYC}>Approve KYC</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </>
+              )}
 
               {(user.accountStatus ?? "Active") === "Active" ? (
                 <AlertDialog>

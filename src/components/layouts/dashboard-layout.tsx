@@ -8,11 +8,7 @@ import {
   Menu,
   Settings,
   Users,
-  Shield,
-  CreditCard,
-  DollarSign,
   Users2,
-  Globe,
   PanelLeftClose,
   PanelLeft,
 } from "lucide-react";
@@ -31,12 +27,8 @@ const routes = [
   { label: "Users", icon: Users, href: "/dashboard/users", match: (path: string) => path.startsWith("/dashboard/users") },
   { label: "Businesses", icon: Briefcase, href: "/dashboard/businesses", match: (path: string) => path.startsWith("/dashboard/businesses") },
   { label: "Transactions", icon: BarChart3, href: "/dashboard/transactions", match: (path: string) => path.startsWith("/dashboard/transactions") },
-  { label: "Virtual Accounts", icon: CreditCard, href: "/dashboard/virtual-accounts", match: (path: string) => path.startsWith("/dashboard/virtual-accounts") },
-  { label: "Settlements", icon: DollarSign, href: "/dashboard/settlements", match: (path: string) => path.startsWith("/dashboard/settlements") },
   { label: "Agents", icon: Users2, href: "/dashboard/agents", match: (path: string) => path.startsWith("/dashboard/agents") },
-  { label: "Country Currency Config", icon: Globe, href: "/dashboard/country-currency-config", match: (path: string) => path.startsWith("/dashboard/country-currency-config") },
   { label: "Settings", icon: Settings, href: "/dashboard/settings", match: (path: string) => path === "/dashboard/settings" },
-  { label: "Super Admin", icon: Shield, href: "/dashboard/superadmin", match: (path: string) => path.startsWith("/dashboard/superadmin") },
 ];
 
 function getStoredCollapsed(): boolean {

@@ -19,36 +19,72 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { shouldUseMockService } from "@/lib/config";
 import { useUsers } from "@/hooks/use-mock-data";
+import { useDebounce } from "@/hooks/use-debounce";
 import { mockUsers } from "@/_data/mock-data";
 
-const userStats = [
-  { name: "Total Users", value: "12,345" },
-  { name: "Verified Users", value: "9,876" },
-  { name: "Awaiting KYC Review", value: "543" },
-  { name: "Unverified Users", value: "2,469" },
-];
+type UserPeriod = "today" | "week" | "month" | "year" | "custom";
+
+const PERIOD_LABELS: Record<UserPeriod, string> = {
+  today: "Today",
+  week: "This week",
+  month: "This month",
+  year: "This year",
+  custom: "Custom range",
+};
 
 export function UsersPage() {
   const useMock = shouldUseMockService();
   const { data: usersFromQuery, isLoading } = useUsers();
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearch = useDebounce(searchTerm, 300);
   const [kycFilter, setKycFilter] = useState("all");
   const [countryFilter, setCountryFilter] = useState("all");
+  const [period, setPeriod] = useState<UserPeriod>("month");
+  const [showCustomRange, setShowCustomRange] = useState(false);
+  const [customStart, setCustomStart] = useState("");
+  const [customEnd, setCustomEnd] = useState("");
 
   const users = useMock ? (usersFromQuery ?? mockUsers) : mockUsers;
-  const filteredUsers = (Array.isArray(users) ? users : []).filter((user) => {
+  const userList = Array.isArray(users) ? users : [];
+
+  const filteredUsers = userList.filter((user) => {
     const matchesSearch =
-      searchTerm === "" ||
-      user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (user.phone ?? "").includes(searchTerm);
+      debouncedSearch === "" ||
+      user.firstName.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      user.email.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      (user.phone ?? "").includes(debouncedSearch);
     const matchesKyc = kycFilter === "all" || user.kycStatus === kycFilter;
     const matchesCountry = countryFilter === "all" || user.country === countryFilter;
     return matchesSearch && matchesKyc && matchesCountry;
   });
+
+  const totalUsers = userList.length;
+  const businessUsers = userList.filter((u) => (u as { userType?: string }).userType === "business").length;
+  const individualUsers = userList.filter((u) => (u as { userType?: string }).userType === "individual").length;
+  const agentUsers = userList.filter((u) => (u as { userType?: string }).userType === "agent").length;
+  const verifiedUsers = userList.filter((u) => u.kycStatus === "Tier 1 Verified" || u.kycStatus === "Tier 2 Verified").length;
+  const unverifiedUsers = userList.filter((u) => u.kycStatus === "Unverified" || u.kycStatus === "Awaiting KYC Review").length;
+
+  const userStats = [
+    { name: "Total Users", value: String(totalUsers) },
+    { name: "Business Users", value: String(businessUsers) },
+    { name: "Individual Users", value: String(individualUsers) },
+    { name: "Agent Users", value: String(agentUsers) },
+    { name: "Verified Users", value: String(verifiedUsers) },
+    { name: "Unverified Users", value: String(unverifiedUsers) },
+  ];
 
   const SUPPORTED_COUNTRIES = [
     "Canada",
@@ -60,9 +96,21 @@ export function UsersPage() {
     "Japan",
     "Brazil",
   ];
-  const userCountries = [...new Set((Array.isArray(users) ? users : []).map((u) => u.country).filter(Boolean))];
+  const userCountries = [...new Set(userList.map((u) => u.country).filter(Boolean))];
   const countries = [...new Set([...SUPPORTED_COUNTRIES, ...userCountries])].sort();
-  const kycStatuses = [...new Set((Array.isArray(users) ? users : []).map((u) => u.kycStatus))];
+  const kycStatuses = [...new Set(userList.map((u) => u.kycStatus))];
+
+  const handlePeriodChange = (value: string) => {
+    if (value === "custom") setShowCustomRange(true);
+    else setPeriod(value as UserPeriod);
+  };
+
+  const handleApplyCustomRange = () => {
+    if (customStart && customEnd) {
+      setPeriod("custom");
+      setShowCustomRange(false);
+    }
+  };
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -71,8 +119,20 @@ export function UsersPage() {
           <h2 className="text-3xl font-bold tracking-tight">Users</h2>
           <p className="text-muted-foreground">Manage users onboarded via 9JA Settlement — Nigerians in Canada</p>
         </div>
+        <Select value={period} onValueChange={handlePeriodChange}>
+          <SelectTrigger className="w-[160px]">
+            <SelectValue placeholder="Date range" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="today">{PERIOD_LABELS.today}</SelectItem>
+            <SelectItem value="week">{PERIOD_LABELS.week}</SelectItem>
+            <SelectItem value="month">{PERIOD_LABELS.month}</SelectItem>
+            <SelectItem value="year">{PERIOD_LABELS.year}</SelectItem>
+            <SelectItem value="custom">{PERIOD_LABELS.custom}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {userStats.map((stat) => (
           <Card key={stat.name}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -93,7 +153,7 @@ export function UsersPage() {
             <div className="flex w-full items-center space-x-2 md:w-2/5">
               <Search className="h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search by name, email, or phone..."
+                placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="h-9"
@@ -190,6 +250,29 @@ export function UsersPage() {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={showCustomRange} onOpenChange={setShowCustomRange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Custom Date Range</DialogTitle>
+            <DialogDescription>Select start and end date for summary data</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="user-start">Start Date</Label>
+              <Input id="user-start" type="date" value={customStart} onChange={(e) => setCustomStart(e.target.value)} />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="user-end">End Date</Label>
+              <Input id="user-end" type="date" value={customEnd} onChange={(e) => setCustomEnd(e.target.value)} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCustomRange(false)}>Cancel</Button>
+            <Button onClick={handleApplyCustomRange} disabled={!customStart || !customEnd}>Apply</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

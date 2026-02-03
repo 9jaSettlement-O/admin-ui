@@ -22,29 +22,35 @@ import {
 import { StatusBadge } from "@/components/shared/status-badge";
 import { shouldUseMockService } from "@/lib/config";
 import { useBusinesses } from "@/hooks/use-mock-data";
+import { useDebounce } from "@/hooks/use-debounce";
 import { mockBusinesses } from "@/_data/mock-data";
-
-const businessStats = [
-  { name: "Total Businesses", value: "1,248" },
-  { name: "Verified Businesses", value: "987" },
-  { name: "Awaiting KYB Review", value: "186" },
-  { name: "Unverified Businesses", value: "75" },
-];
 
 export function BusinessesPage() {
   const useMock = shouldUseMockService();
   const { data: businessesFromQuery, isLoading } = useBusinesses();
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearch = useDebounce(searchTerm, 300);
   const [kybFilter, setKybFilter] = useState("all");
   const [countryFilter, setCountryFilter] = useState("all");
 
   const businesses = useMock ? (businessesFromQuery ?? mockBusinesses) : mockBusinesses;
-  const filteredBusinesses = (Array.isArray(businesses) ? businesses : []).filter((b) => {
+  const businessList = Array.isArray(businesses) ? businesses : [];
+  const totalBusinesses = businessList.length;
+  const verifiedBusinesses = businessList.filter((b) => b.kybStatus?.includes("Verified")).length;
+  const unverifiedBusinesses = businessList.filter((b) => !b.kybStatus?.includes("Verified")).length;
+
+  const businessStats = [
+    { name: "Total Businesses", value: String(totalBusinesses) },
+    { name: "Verified Businesses", value: String(verifiedBusinesses) },
+    { name: "Unverified Businesses", value: String(unverifiedBusinesses) },
+  ];
+
+  const filteredBusinesses = businessList.filter((b) => {
     const matchesSearch =
-      searchTerm === "" ||
-      b.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      b.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (b.phone ?? "").includes(searchTerm);
+      debouncedSearch === "" ||
+      b.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      b.email.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      (b.phone ?? "").includes(debouncedSearch);
     const matchesKyb = kybFilter === "all" || b.kybStatus === kybFilter;
     const matchesCountry = countryFilter === "all" || b.country === countryFilter;
     return matchesSearch && matchesKyb && matchesCountry;
@@ -55,9 +61,9 @@ export function BusinessesPage() {
     "South Africa",
     "Democratic Republic of Congo",
   ];
-  const businessCountries = [...new Set((Array.isArray(businesses) ? businesses : []).map((b) => b.country).filter(Boolean))];
+  const businessCountries = [...new Set(businessList.map((b) => b.country).filter(Boolean))];
   const countries = [...new Set([...SUPPORTED_COUNTRIES, ...businessCountries])].sort();
-  const kybStatuses = [...new Set((Array.isArray(businesses) ? businesses : []).map((b) => b.kybStatus))];
+  const kybStatuses = [...new Set(businessList.map((b) => b.kybStatus))];
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -67,7 +73,7 @@ export function BusinessesPage() {
           <p className="text-muted-foreground">Business accounts for CAD ↔ NGN remittance (Nigerian diaspora)</p>
         </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3">
         {businessStats.map((stat) => (
           <Card key={stat.name}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -88,7 +94,7 @@ export function BusinessesPage() {
             <div className="flex w-full items-center space-x-2 md:w-2/5">
               <Search className="h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search by name, email, or phone..."
+                placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="h-9"
