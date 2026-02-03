@@ -34,7 +34,9 @@ export async function mockLogin(payload: LoginDTO): Promise<IAPIResponse> {
   }
 
   const mockUserId = `mock_admin_${Date.now()}`;
-  const mockToken = `mock_token_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  // Token must have 3 dot-separated parts to pass storage.checkToken() (JWT format)
+  const tokenPayload = btoa(JSON.stringify({ sub: mockUserId, email: payload.email }));
+  const mockToken = `mock.${tokenPayload}.${Math.random().toString(36).slice(2)}`;
 
   storage.storeAuth(mockToken, mockUserId, "admin", payload.email);
 
@@ -64,7 +66,9 @@ export async function mockRegister(
   await delay();
 
   const mockUserId = `mock_admin_${Date.now()}`;
-  const mockToken = `mock_token_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  // Token must have 3 dot-separated parts to pass storage.checkToken() (JWT format)
+  const tokenPayload = btoa(JSON.stringify({ sub: mockUserId, email: payload.email }));
+  const mockToken = `mock.${tokenPayload}.${Math.random().toString(36).slice(2)}`;
 
   storage.storeAuth(mockToken, mockUserId, "admin", payload.email);
 

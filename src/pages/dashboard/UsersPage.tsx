@@ -50,7 +50,18 @@ export function UsersPage() {
     return matchesSearch && matchesKyc && matchesCountry;
   });
 
-  const countries = [...new Set((Array.isArray(users) ? users : []).map((u) => u.country))];
+  const SUPPORTED_COUNTRIES = [
+    "Canada",
+    "United States",
+    "United Kingdom",
+    "Australia",
+    "Germany",
+    "France",
+    "Japan",
+    "Brazil",
+  ];
+  const userCountries = [...new Set((Array.isArray(users) ? users : []).map((u) => u.country).filter(Boolean))];
+  const countries = [...new Set([...SUPPORTED_COUNTRIES, ...userCountries])].sort();
   const kycStatuses = [...new Set((Array.isArray(users) ? users : []).map((u) => u.kycStatus))];
 
   return (
@@ -58,7 +69,7 @@ export function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Users</h2>
-          <p className="text-muted-foreground">Manage individual user accounts</p>
+          <p className="text-muted-foreground">Manage users onboarded via 9JA Settlement — Nigerians in Canada</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

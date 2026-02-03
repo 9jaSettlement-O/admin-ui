@@ -54,7 +54,7 @@ export function SettlementsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Settlements</h2>
-          <p className="text-muted-foreground">Track and manage settlement payouts</p>
+          <p className="text-muted-foreground">CAD → NGN settlement payouts to Nigerian beneficiaries</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

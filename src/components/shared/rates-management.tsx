@@ -21,7 +21,7 @@ export function RatesManagement() {
             <div>
               <CardTitle>Country Currency Configuration</CardTitle>
               <CardDescription>
-                Create and configure country-currency pairs with payin/payout partners
+                Canada/NGN primary. Multicurrency pairs with payin/payout partners
               </CardDescription>
             </div>
             <Button>

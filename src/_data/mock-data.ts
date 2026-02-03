@@ -18,97 +18,98 @@ export interface MockUserDetail {
   address?: string;
 }
 
+/** Users: Nigerians resident in Canada (primary customer base for CAD ↔ NGN) */
 export const mockUsers = [
   {
     id: "1",
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    phone: "+1 234 567 8901",
-    country: "United States",
+    firstName: "Chidi",
+    lastName: "Okafor",
+    email: "chidi.okafo@example.com",
+    phone: "+1 416 555 0123",
+    country: "Canada",
     kycStatus: "Tier 2 Verified",
   },
   {
     id: "2",
-    firstName: "Jane",
-    lastName: "Smith",
-    email: "jane.smith@example.com",
-    phone: "+1 234 567 8902",
+    firstName: "Amara",
+    lastName: "Nwosu",
+    email: "amara.nwosu@example.com",
+    phone: "+1 647 555 0456",
     country: "Canada",
     kycStatus: "Tier 1 Verified",
   },
   {
     id: "3",
-    firstName: "Michael",
-    lastName: "Johnson",
-    email: "michael.johnson@example.com",
-    phone: "+1 234 567 8903",
-    country: "United Kingdom",
+    firstName: "Oluwaseun",
+    lastName: "Adeyemi",
+    email: "seun.adeyemi@example.com",
+    phone: "+1 905 555 0789",
+    country: "Canada",
     kycStatus: "Awaiting KYC Review",
   },
   {
     id: "4",
-    firstName: "Emily",
-    lastName: "Williams",
-    email: "emily.williams@example.com",
-    phone: "+1 234 567 8904",
-    country: "Australia",
+    firstName: "Ngozi",
+    lastName: "Eze",
+    email: "ngozi.eze@example.com",
+    phone: "+1 514 555 0321",
+    country: "Canada",
     kycStatus: "Unverified",
   },
 ];
 
-/** Extended user details for UserDetailPage */
+/** Extended user details - Nigerians resident in Canada */
 export const mockUserDetails: MockUserDetail[] = [
   {
     id: "1",
-    firstName: "John",
-    lastName: "Doe",
-    middleName: "Robert",
-    email: "john.doe@example.com",
-    phone: "+1 234 567 8901",
-    country: "United States",
+    firstName: "Chidi",
+    lastName: "Okafor",
+    middleName: "Chukwuemeka",
+    email: "chidi.okafo@example.com",
+    phone: "+1 416 555 0123",
+    country: "Canada",
     kycStatus: "Tier 2 Verified",
     accountStatus: "Active",
     dob: "1985-06-15",
-    address: "123 Main St, Apt 4B, New York, NY 10001, USA",
+    address: "123 Yonge St, Toronto, ON M5C 1W4, Canada",
   },
   {
     id: "2",
-    firstName: "Jane",
-    lastName: "Smith",
-    middleName: "Marie",
-    email: "jane.smith@example.com",
-    phone: "+1 234 567 8902",
+    firstName: "Amara",
+    lastName: "Nwosu",
+    middleName: "Chioma",
+    email: "amara.nwosu@example.com",
+    phone: "+1 647 555 0456",
     country: "Canada",
     kycStatus: "Tier 1 Verified",
     accountStatus: "Active",
     dob: "1990-03-22",
-    address: "456 Oak Ave, Toronto, ON M5V 1A1, Canada",
+    address: "456 Bloor St W, Toronto, ON M5S 1X8, Canada",
   },
   {
     id: "3",
-    firstName: "Michael",
-    lastName: "Johnson",
-    middleName: "James",
-    email: "michael.johnson@example.com",
-    phone: "+1 234 567 8903",
-    country: "United Kingdom",
+    firstName: "Oluwaseun",
+    lastName: "Adeyemi",
+    middleName: "Tunde",
+    email: "seun.adeyemi@example.com",
+    phone: "+1 905 555 0789",
+    country: "Canada",
     kycStatus: "Awaiting KYC Review",
     accountStatus: "Active",
     dob: "1988-11-08",
-    address: "78 Baker St, London W1U 3AB, UK",
+    address: "78 King St E, Mississauga, ON L5A 1B2, Canada",
   },
   {
     id: "4",
-    firstName: "Emily",
-    lastName: "Williams",
-    email: "emily.williams@example.com",
-    phone: "+1 234 567 8904",
-    country: "Australia",
+    firstName: "Ngozi",
+    lastName: "Eze",
+    email: "ngozi.eze@example.com",
+    phone: "+1 514 555 0321",
+    country: "Canada",
     kycStatus: "Unverified",
     accountStatus: "Active",
     dob: "1992-07-14",
-    address: "12 Collins St, Melbourne VIC 3000, Australia",
+    address: "12 Rue Sainte-Catherine, Montreal, QC H2X 1Y4, Canada",
   },
 ];
 
@@ -148,24 +149,25 @@ export const mockBusinesses = [
 ];
 
 export const mockVirtualAccounts = [
-  { id: "1", accountName: "John Doe", accountNumber: "1234567890", bankName: "GTBank", currency: "NGN", status: "Active" },
-  { id: "2", accountName: "Jane Smith", accountNumber: "0987654321", bankName: "Access Bank", currency: "NGN", status: "Active" },
+  { id: "1", accountName: "Chidi Okafor", accountNumber: "1234567890", bankName: "GTBank", currency: "NGN", status: "Active" },
+  { id: "2", accountName: "Amara Nwosu", accountNumber: "0987654321", bankName: "Access Bank", currency: "NGN", status: "Active" },
   { id: "3", accountName: "Tech Solutions Ltd", accountNumber: "1122334455", bankName: "Zenith Bank", currency: "NGN", status: "Pending" },
 ];
 
 export const mockSettlements = [
-  { id: "1", reference: "SET-001", amount: "₦1,500,000", status: "Completed", date: "2023-05-22", beneficiary: "John Doe" },
-  { id: "2", reference: "SET-002", amount: "₦850,000", status: "Pending", date: "2023-05-23", beneficiary: "Jane Smith" },
+  { id: "1", reference: "SET-001", amount: "₦1,500,000", status: "Completed", date: "2023-05-22", beneficiary: "Chidi Okafor" },
+  { id: "2", reference: "SET-002", amount: "₦850,000", status: "Pending", date: "2023-05-23", beneficiary: "Amara Nwosu" },
   { id: "3", reference: "SET-003", amount: "₦2,100,000", status: "Processing", date: "2023-05-21", beneficiary: "Tech Solutions Ltd" },
 ];
 
+/** Transactions: CAD ↔ NGN (primary), multicurrency in v2 */
 export const mockTransactions = [
-  { id: "123456", userEmail: "john.doe@example.com", type: "Deposit", sourceAmount: "$1,000.00", destinationAmount: "$1,000.00", status: "Completed", date: "2023-05-22" },
-  { id: "123457", userEmail: "jane.smith@example.com", type: "Withdrawal", sourceAmount: "$500.00", destinationAmount: "$495.00", status: "Pending", date: "2023-05-22" },
-  { id: "123458", userEmail: "michael.johnson@example.com", type: "Transfer", sourceAmount: "$750.00", destinationAmount: "$742.50", status: "Completed", date: "2023-05-21" },
-  { id: "123459", userEmail: "emily.williams@example.com", type: "Deposit", sourceAmount: "$2,000.00", destinationAmount: "$2,000.00", status: "Completed", date: "2023-05-21" },
-  { id: "123460", userEmail: "david.brown@example.com", type: "Withdrawal", sourceAmount: "$1,500.00", destinationAmount: "$1,485.00", status: "Failed", date: "2023-05-20" },
-  { id: "123461", userEmail: "sarah.miller@example.com", type: "Transfer", sourceAmount: "$300.00", destinationAmount: "$297.00", status: "Completed", date: "2023-05-20" },
+  { id: "123456", userEmail: "chidi.okafo@example.com", type: "Send", sourceAmount: "1,000 CAD", destinationAmount: "₦1,250,000", status: "Completed", date: "2023-05-22" },
+  { id: "123457", userEmail: "amara.nwosu@example.com", type: "Receive", sourceAmount: "500 CAD", destinationAmount: "₦625,000", status: "Pending", date: "2023-05-22" },
+  { id: "123458", userEmail: "seun.adeyemi@example.com", type: "Send", sourceAmount: "750 CAD", destinationAmount: "₦937,500", status: "Completed", date: "2023-05-21" },
+  { id: "123459", userEmail: "ngozi.eze@example.com", type: "Send", sourceAmount: "2,000 CAD", destinationAmount: "₦2,500,000", status: "Completed", date: "2023-05-21" },
+  { id: "123460", userEmail: "chidi.okafo@example.com", type: "Receive", sourceAmount: "1,500 CAD", destinationAmount: "₦1,875,000", status: "Failed", date: "2023-05-20" },
+  { id: "123461", userEmail: "amara.nwosu@example.com", type: "Send", sourceAmount: "300 CAD", destinationAmount: "₦375,000", status: "Completed", date: "2023-05-20" },
 ];
 
 export const mockAgents = [
@@ -323,25 +325,25 @@ export interface MockVirtualAccountDetail {
 export const mockVirtualAccountDetails: MockVirtualAccountDetail[] = [
   {
     id: "1",
-    accountName: "John Doe",
+    accountName: "Chidi Okafor",
     accountNumber: "1234567890",
     bankName: "GTBank",
     currency: "NGN",
     status: "Active",
-    ownedBy: "john.doe@example.com",
+    ownedBy: "chidi.okafo@example.com",
     dateCreated: "2023-12-01 14:30:00",
-    email: "john.doe@example.com",
+    email: "chidi.okafo@example.com",
     phoneNumber: "+1 234 567 8901",
     settlementWallet: "0x1234567890abcdef1234567890abcdef12345678",
   },
   {
     id: "2",
-    accountName: "Jane Smith",
+    accountName: "Amara Nwosu",
     accountNumber: "0987654321",
     bankName: "Access Bank",
     currency: "NGN",
     status: "Active",
-    ownedBy: "jane.smith@example.com",
+    ownedBy: "amara.nwosu@example.com",
     dateCreated: "2023-11-15 10:00:00",
   },
   {
@@ -388,9 +390,9 @@ export const mockAgentDetails: MockAgentDetail[] = [
     verifiedUsers: 24,
     earningsThisMonth: 1250,
     customerDetails: [
-      { id: "c1", customerName: "John Doe", transactionVolume: 5000, commissionEarned: 250, date: "2024-01-15" },
-      { id: "c2", customerName: "Jane Smith", transactionVolume: 8000, commissionEarned: 640, date: "2024-01-14" },
-      { id: "c3", customerName: "Mike Johnson", transactionVolume: 3000, commissionEarned: 240, date: "2024-01-12" },
+      { id: "c1", customerName: "Chidi Okafor", transactionVolume: 5000, commissionEarned: 250, date: "2024-01-15" },
+      { id: "c2", customerName: "Amara Nwosu", transactionVolume: 8000, commissionEarned: 640, date: "2024-01-14" },
+      { id: "c3", customerName: "Oluwaseun Adeyemi", transactionVolume: 3000, commissionEarned: 240, date: "2024-01-12" },
     ],
   },
   {
@@ -404,8 +406,8 @@ export const mockAgentDetails: MockAgentDetail[] = [
     verifiedUsers: 16,
     earningsThisMonth: 950,
     customerDetails: [
-      { id: "c4", customerName: "Sarah Williams", transactionVolume: 6000, commissionEarned: 480, date: "2024-01-14" },
-      { id: "c5", customerName: "Robert Brown", transactionVolume: 4500, commissionEarned: 360, date: "2024-01-13" },
+      { id: "c4", customerName: "Ngozi Eze", transactionVolume: 6000, commissionEarned: 480, date: "2024-01-14" },
+      { id: "c5", customerName: "Emeka Okoli", transactionVolume: 4500, commissionEarned: 360, date: "2024-01-13" },
     ],
   },
 ];
@@ -419,7 +421,7 @@ export const mockAdmins = [
 ];
 
 export const mockAdminActions = [
-  { id: "1", adminName: "John Admin", adminEmail: "john.admin@9jasettlement.com", action: "Approved KYC for user", target: "jane.doe@example.com", timestamp: "2023-12-15 14:25:00", ipAddress: "192.168.1.100", result: "Success" },
+  { id: "1", adminName: "John Admin", adminEmail: "john.admin@9jasettlement.com", action: "Approved KYC for user", target: "amara.nwosu@example.com", timestamp: "2023-12-15 14:25:00", ipAddress: "192.168.1.100", result: "Success" },
   { id: "2", adminName: "Sarah Manager", adminEmail: "sarah.manager@9jasettlement.com", action: "Blocked user account", target: "suspicious.user@example.com", timestamp: "2023-12-15 13:45:00", ipAddress: "192.168.1.101", result: "Success" },
   { id: "3", adminName: "Lisa Reviewer", adminEmail: "lisa.reviewer@9jasettlement.com", action: "Reviewed transaction", target: "TX123456", timestamp: "2023-12-15 12:30:00", ipAddress: "192.168.1.102", result: "Success" },
   { id: "4", adminName: "Mike Support", adminEmail: "mike.support@9jasettlement.com", action: "Attempted to access restricted area", target: "Admin Settings", timestamp: "2023-12-15 10:00:00", ipAddress: "192.168.1.103", result: "Failed" },
@@ -431,15 +433,18 @@ export const mockLoginSessions = [
   { id: "3", adminName: "Lisa Reviewer", adminEmail: "lisa.reviewer@9jasettlement.com", loginTime: "2023-12-15 11:20:00", logoutTime: "Active", ipAddress: "192.168.1.102", userAgent: "Safari 17.1.2", location: "Toronto, CA" },
 ];
 
-/** Routes and country-currency mock data */
+/** Routes: CAD/NGN primary (v1), multicurrency (v2) */
 export const mockRoutes = [
-  { id: "1", sourceCurrency: "USD", destinationCurrency: "NGN", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "Stripe", payoutPartner: "Mobile Money" },
-  { id: "2", sourceCurrency: "EUR", destinationCurrency: "KES", status: "Draft", sendEnabled: true, swapEnabled: false, payinPartner: "Wise", payoutPartner: "Bank Transfer" },
-  { id: "3", sourceCurrency: "GBP", destinationCurrency: "GHS", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "Stripe", payoutPartner: "Mobile Money" },
+  { id: "1", sourceCurrency: "CAD", destinationCurrency: "NGN", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "IFX", payoutPartner: "Flutterwave" },
+  { id: "2", sourceCurrency: "NGN", destinationCurrency: "CAD", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "Flutterwave", payoutPartner: "IFX" },
+  { id: "3", sourceCurrency: "USD", destinationCurrency: "NGN", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "Stripe", payoutPartner: "Flutterwave" },
+  { id: "4", sourceCurrency: "GBP", destinationCurrency: "NGN", status: "Draft", sendEnabled: true, swapEnabled: false, payinPartner: "Wise", payoutPartner: "Bank Transfer" },
 ];
 
+/** Country-currency: Canada/NGN primary for Nigerian diaspora */
 export const mockCountryCurrencies = [
-  { id: "1", country: "Nigeria", currency: "NGN", payinPartner: "IFX", payoutPartner: "Flutterwave", status: "Active" },
-  { id: "2", country: "Kenya", currency: "KES", payinPartner: "Clear Junction", payoutPartner: "Paystack", status: "Active" },
-  { id: "3", country: "Ghana", currency: "GHS", payinPartner: "Flutterwave", payoutPartner: "Bridge", status: "Inactive" },
+  { id: "1", country: "Canada", currency: "CAD", payinPartner: "IFX", payoutPartner: "Flutterwave", status: "Active" },
+  { id: "2", country: "Nigeria", currency: "NGN", payinPartner: "Flutterwave", payoutPartner: "IFX", status: "Active" },
+  { id: "3", country: "Kenya", currency: "KES", payinPartner: "Clear Junction", payoutPartner: "Paystack", status: "Active" },
+  { id: "4", country: "Ghana", currency: "GHS", payinPartner: "Flutterwave", payoutPartner: "Bridge", status: "Inactive" },
 ];

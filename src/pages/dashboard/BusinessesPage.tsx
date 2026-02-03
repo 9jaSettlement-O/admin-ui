@@ -50,7 +50,13 @@ export function BusinessesPage() {
     return matchesSearch && matchesKyb && matchesCountry;
   });
 
-  const countries = [...new Set((Array.isArray(businesses) ? businesses : []).map((b) => b.country))];
+  const SUPPORTED_COUNTRIES = [
+    "Uganda",
+    "South Africa",
+    "Democratic Republic of Congo",
+  ];
+  const businessCountries = [...new Set((Array.isArray(businesses) ? businesses : []).map((b) => b.country).filter(Boolean))];
+  const countries = [...new Set([...SUPPORTED_COUNTRIES, ...businessCountries])].sort();
   const kybStatuses = [...new Set((Array.isArray(businesses) ? businesses : []).map((b) => b.kybStatus))];
 
   return (
@@ -58,7 +64,7 @@ export function BusinessesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Businesses</h2>
-          <p className="text-muted-foreground">Manage business accounts and KYB</p>
+          <p className="text-muted-foreground">Business accounts for CAD ↔ NGN remittance (Nigerian diaspora)</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

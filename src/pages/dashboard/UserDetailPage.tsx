@@ -145,11 +145,14 @@ export function UserDetailPage() {
             </div>
 
             <div className="flex flex-col gap-2 pt-4">
-              {user.kycStatus === "Awaiting KYC Review" && (
-                <Button onClick={handleApproveKYC} className="w-full">
-                  <Check className="mr-2 h-4 w-4" /> Approve KYC
-                </Button>
-              )}
+              <Button
+                onClick={handleApproveKYC}
+                variant="outline"
+                className="w-full"
+                disabled={user.kycStatus === "Tier 2 Verified"}
+              >
+                <Check className="mr-2 h-4 w-4" /> Approve KYC
+              </Button>
 
               {(user.accountStatus ?? "Active") === "Active" ? (
                 <AlertDialog>

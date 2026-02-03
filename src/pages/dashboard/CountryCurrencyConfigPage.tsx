@@ -17,7 +17,7 @@ export function CountryCurrencyConfigPage() {
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Country & Currency Config</h2>
-        <p className="text-muted-foreground">Configure supported countries and currencies</p>
+        <p className="text-muted-foreground">Canada/NGN primary. V2 multicurrency: KES, GHS, etc.</p>
       </div>
 
       <Card>

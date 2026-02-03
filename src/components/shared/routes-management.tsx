@@ -20,7 +20,7 @@ export function RoutesManagement() {
           <div>
             <CardTitle>Routes Management</CardTitle>
             <CardDescription>
-              Create and configure payment routes with send/swap, partners, fees, margins, and rates
+              CAD ↔ NGN primary. Multicurrency routes: send/swap, partners, fees, margins
             </CardDescription>
           </div>
           <Button>

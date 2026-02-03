@@ -77,7 +77,7 @@ export function AgentsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Agents</h2>
-          <p className="text-muted-foreground">Manage agent commission tiers and monitor performance</p>
+          <p className="text-muted-foreground">Agents referring Nigerian diaspora for CAD ↔ NGN remittance</p>
         </div>
       </div>
 

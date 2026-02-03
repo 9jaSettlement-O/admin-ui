@@ -63,11 +63,11 @@ export function TransactionDetailPage() {
               <p className="text-sm">{tx.userEmail}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Source Amount</p>
+              <p className="text-sm font-medium text-muted-foreground">Source (CAD)</p>
               <p className="text-sm font-semibold">{tx.sourceAmount}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Destination Amount</p>
+              <p className="text-sm font-medium text-muted-foreground">Destination (NGN)</p>
               <p className="text-sm font-semibold">{tx.destinationAmount}</p>
             </div>
           </div>
@@ -111,11 +111,11 @@ export function TransactionDetailPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Source Amount</p>
+              <p className="text-sm font-medium text-muted-foreground">Source (CAD)</p>
               <p className="text-sm font-semibold">{tx.sourceAmount}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Destination Amount</p>
+              <p className="text-sm font-medium text-muted-foreground">Destination (NGN)</p>
               <p className="text-sm font-semibold">{tx.destinationAmount}</p>
             </div>
             <div>

@@ -55,7 +55,7 @@ export function VirtualAccountsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Virtual Accounts</h2>
-          <p className="text-muted-foreground">Manage virtual account allocations</p>
+          <p className="text-muted-foreground">NGN virtual accounts for CAD remittance payouts</p>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
