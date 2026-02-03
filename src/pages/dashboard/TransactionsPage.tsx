@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { TableSkeleton } from "@/components/shared/table-skeleton";
 import { shouldUseMockService } from "@/lib/config";
 import { useTransactions } from "@/hooks/use-mock-data";
 import { mockTransactions } from "@/_data/mock-data";
@@ -234,9 +235,7 @@ export function TransactionsPage() {
           </div>
           <div className="mt-6 rounded-md border">
             {isLoading && useMock ? (
-              <div className="flex h-24 items-center justify-center text-muted-foreground">
-                Loading...
-              </div>
+              <TableSkeleton rows={8} columns={8} />
             ) : (
             <Table>
               <TableHeader>

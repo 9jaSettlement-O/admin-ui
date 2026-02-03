@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { TableSkeleton } from "@/components/shared/table-skeleton";
 import { shouldUseMockService } from "@/lib/config";
 import { useBusinesses } from "@/hooks/use-mock-data";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -131,9 +132,7 @@ export function BusinessesPage() {
           </div>
           <div className="mt-6 rounded-md border">
             {isLoading && useMock ? (
-              <div className="flex h-24 items-center justify-center text-muted-foreground">
-                Loading...
-              </div>
+              <TableSkeleton rows={8} columns={6} />
             ) : (
               <Table>
                 <TableHeader>

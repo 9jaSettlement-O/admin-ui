@@ -28,6 +28,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { TableSkeleton } from "@/components/shared/table-skeleton";
 import { shouldUseMockService } from "@/lib/config";
 import { useUsers } from "@/hooks/use-mock-data";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -190,9 +191,7 @@ export function UsersPage() {
           </div>
           <div className="mt-6 rounded-md border">
             {isLoading && useMock ? (
-              <div className="flex h-24 items-center justify-center text-muted-foreground">
-                Loading...
-              </div>
+              <TableSkeleton rows={8} columns={7} />
             ) : (
               <Table>
                 <TableHeader>

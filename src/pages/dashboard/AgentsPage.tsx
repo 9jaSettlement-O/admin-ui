@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { TableSkeleton } from "@/components/shared/table-skeleton";
 import { shouldUseMockService } from "@/lib/config";
 import { useAgents } from "@/hooks/use-mock-data";
 import { mockAgents, mockAgentTiers } from "@/_data/mock-data";
@@ -118,9 +119,7 @@ export function AgentsPage() {
 
               <div className="rounded-md border">
                 {isLoading && useMock ? (
-                  <div className="flex h-24 items-center justify-center text-muted-foreground">
-                    Loading...
-                  </div>
+                  <TableSkeleton rows={8} columns={6} />
                 ) : (
                   <Table>
                     <TableHeader>
