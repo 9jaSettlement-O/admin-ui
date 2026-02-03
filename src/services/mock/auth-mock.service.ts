@@ -16,8 +16,11 @@ function delay(ms = MOCK_DELAY_MS): Promise<void> {
 /** Mock reset token - any non-empty token is valid in mock mode */
 export const MOCK_RESET_TOKEN = "mock-reset-token-12345";
 
+/** OTP required for admin login in mock mode */
+export const MOCK_ADMIN_OTP = "123456";
+
 /**
- * Mock login - accepts any email/password.
+ * Mock login - accepts any email/password, but OTP must be "123456".
  */
 export async function mockLogin(payload: LoginDTO): Promise<IAPIResponse> {
   await delay();
@@ -29,6 +32,17 @@ export async function mockLogin(payload: LoginDTO): Promise<IAPIResponse> {
       message: "Email and password are required.",
       errors: [],
       status: 400,
+    };
+  }
+
+  const otp = payload.otp?.trim() ?? "";
+  if (otp !== MOCK_ADMIN_OTP) {
+    return {
+      error: true,
+      data: null,
+      message: "Invalid OTP. Use 123456 for mock login.",
+      errors: ["OTP must be 123456"],
+      status: 401,
     };
   }
 

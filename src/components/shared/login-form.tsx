@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { shouldUseMockService } from "@/lib/config";
-import { mockLogin } from "@/services/mock";
+import { mockLogin, MOCK_ADMIN_OTP } from "@/services/mock";
 import { api } from "@/api";
 import storage from "@/utils/storage.util";
 
@@ -15,6 +15,7 @@ export function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,8 +29,8 @@ export function LoginForm() {
 
     try {
       const res = useMock
-        ? await mockLogin({ email, password })
-        : await api.auth.login({ email, password });
+        ? await mockLogin({ email, password, otp })
+        : await api.auth.login({ email, password, otp });
 
       const token =
         res.token ?? (res.data as { token?: string } | null)?.token;
@@ -106,6 +107,25 @@ export function LoginForm() {
             </Button>
           </div>
         </div>
+        <div className="space-y-2">
+          <Label htmlFor="otp">OTP</Label>
+          <Input
+            id="otp"
+            type="text"
+            inputMode="numeric"
+            placeholder="Enter 6-digit code"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            maxLength={6}
+            required
+            autoComplete="one-time-code"
+          />
+        </div>
+        {useMock && (
+          <p className="text-xs text-muted-foreground">
+            Mock mode: use OTP <strong>{MOCK_ADMIN_OTP}</strong> to login.
+          </p>
+        )}
       </div>
 
       {error && (
