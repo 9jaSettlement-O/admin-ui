@@ -37,12 +37,14 @@ export function BusinessesPage() {
   const businesses = useMock ? (businessesFromQuery ?? mockBusinesses) : mockBusinesses;
   const businessList = Array.isArray(businesses) ? businesses : [];
   const totalBusinesses = businessList.length;
-  const verifiedBusinesses = businessList.filter((b) => b.kybStatus?.includes("Verified")).length;
-  const unverifiedBusinesses = businessList.filter((b) => !b.kybStatus?.includes("Verified")).length;
+  const verifiedBusinesses = businessList.filter((b) => b.kybStatus === "Verified").length;
+  const awaitingKybBusinesses = businessList.filter((b) => b.kybStatus === "Awaiting KYB Review").length;
+  const unverifiedBusinesses = businessList.filter((b) => b.kybStatus === "Unverified").length;
 
   const businessStats = [
     { name: "Total Businesses", value: String(totalBusinesses) },
     { name: "Verified Businesses", value: String(verifiedBusinesses) },
+    { name: "Awaiting KYB Review", value: String(awaitingKybBusinesses) },
     { name: "Unverified Businesses", value: String(unverifiedBusinesses) },
   ];
 
@@ -74,7 +76,7 @@ export function BusinessesPage() {
           <p className="text-muted-foreground">Business accounts for CAD ↔ NGN remittance (Nigerian diaspora)</p>
         </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {businessStats.map((stat) => (
           <Card key={stat.name}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
