@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   BarChart3,
   Briefcase,
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store";
 
 const routes = [
   { label: "Dashboard", icon: Home, href: "/dashboard", match: (path: string) => path === "/dashboard" },
@@ -35,7 +36,14 @@ const routes = [
 export function DashboardLayout() {
   const location = useLocation();
   const pathname = location.pathname;
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const logout = useAuthStore((s) => s.logout);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -65,11 +73,13 @@ export function DashboardLayout() {
           </ul>
         </nav>
         <div className="border-t p-4">
-          <Button variant="outline" className="w-full justify-start bg-transparent" asChild>
-            <Link to="/">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Link>
+          <Button
+            variant="outline"
+            className="w-full justify-start bg-transparent"
+            onClick={handleLogout}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
           </Button>
         </div>
       </aside>
@@ -111,11 +121,16 @@ export function DashboardLayout() {
                   </ul>
                 </nav>
                 <div className="border-t p-4">
-                  <Button variant="outline" className="w-full justify-start bg-transparent" asChild>
-                    <Link to="/">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Logout
-                    </Link>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start bg-transparent"
+                    onClick={() => {
+                      setIsOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
                   </Button>
                 </div>
               </div>
@@ -125,11 +140,9 @@ export function DashboardLayout() {
             <Logo className="text-xs" />
           </div>
           <div className="ml-auto flex items-center gap-4 md:hidden">
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/">
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-              </Link>
+            <Button variant="outline" size="sm" onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
             </Button>
           </div>
         </header>

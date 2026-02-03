@@ -1,6 +1,10 @@
-/**
- * API client layer — HTTP clients and request/response handling.
- * Used by services to talk to backend.
- */
+import { axiosPublic, axiosPrivate } from "./config";
+import { AuthApi } from "./auth";
 
-export {};
+const auth = new AuthApi(axiosPublic, axiosPrivate);
+
+export const api = {
+  auth,
+};
+
+export { axiosPublic, axiosPrivate } from "./config";

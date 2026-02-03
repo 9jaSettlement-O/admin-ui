@@ -1,0 +1,31 @@
+export interface RegisterUserDTO {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  userType?: string;
+}
+
+export interface LoginDTO {
+  email: string;
+  password: string;
+}
+
+export interface LogoutDTO {
+  userId: string;
+  goTo?: (url: string) => Promise<void>;
+}
+
+export interface ForgotPasswordDTO {
+  email: string;
+}
+
+export interface ResetPasswordDTO {
+  email: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordDTO {
+  currentPassword: string;
+  newPassword: string;
+}

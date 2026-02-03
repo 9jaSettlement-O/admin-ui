@@ -1,29 +1,34 @@
 # Dependencies
 node_modules
-.pnpm-store
 
-# Build
+# Build outputs
 dist
 dist-ssr
 .next
 
-# Debug
-*.log
-.pnpm-debug.log*
-
-# Env
-.env*
-!.env.example
-
-# IDE
-.idea
-.vscode
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
 # TypeScript
 *.tsbuildinfo
+vite.config.d.ts
+vite.config.js
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

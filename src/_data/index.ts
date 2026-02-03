@@ -1,5 +1,1 @@
-/**
- * Static or mock data for development and tests.
- */
-
-export {};
+export * from "./mock-data";
