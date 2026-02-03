@@ -235,11 +235,11 @@ export function AgentsPage() {
                     <TableHeader>
                       <TableRow>
                         <TableHead>Agent Email</TableHead>
-                        <TableHead className="text-right">Total Transactions</TableHead>
-                        <TableHead className="text-right">Total Volume (CAD)</TableHead>
-                        <TableHead className="text-right">Lifetime Earnings (₦)</TableHead>
-                        <TableHead className="hidden text-right md:table-cell">Earnings This Week (₦)</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="text-center">Total Transactions</TableHead>
+                        <TableHead className="text-center">Total Volume (CAD)</TableHead>
+                        <TableHead className="text-center">Lifetime Earnings (₦)</TableHead>
+                        <TableHead className="hidden text-center md:table-cell">Earnings This Week (₦)</TableHead>
+                        <TableHead className="text-center">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -253,13 +253,13 @@ export function AgentsPage() {
                         paginatedAgents.map((agent) => (
                           <TableRow key={agent.id} className="hover:bg-muted/50">
                             <TableCell className="font-medium">{agent.email}</TableCell>
-                            <TableCell className="text-right">{agent.totalTransactions}</TableCell>
-                            <TableCell className="text-right">₦{agent.totalVolumeCAD.toLocaleString()}</TableCell>
-                            <TableCell className="text-right">₦{agent.lifetimeEarnings.toLocaleString()}</TableCell>
-                            <TableCell className="hidden text-right md:table-cell">
+                            <TableCell className="text-center">{agent.totalTransactions}</TableCell>
+                            <TableCell className="text-center">₦{agent.totalVolumeCAD.toLocaleString()}</TableCell>
+                            <TableCell className="text-center">₦{agent.lifetimeEarnings.toLocaleString()}</TableCell>
+                            <TableCell className="hidden text-center md:table-cell">
                               ₦{agent.earningsThisWeek.toLocaleString()}
                             </TableCell>
-                            <TableCell className="text-right">
+                            <TableCell className="text-center">
                               <Button variant="outline" size="sm" asChild>
                                 <Link to={`/dashboard/agents/${agent.id}`}>
                                   <Eye className="mr-2 h-4 w-4" />
