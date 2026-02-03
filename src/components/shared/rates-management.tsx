@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -12,21 +12,16 @@ import { Badge } from "@/components/ui/badge";
 import { Plus } from "lucide-react";
 import { mockCountryCurrencies } from "@/_data/mock-data";
 
-export function CountryCurrencyConfigPage() {
+export function RatesManagement() {
   return (
-    <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Country & Currency Config</h2>
-        <p className="text-muted-foreground">Configure supported countries and currencies</p>
-      </div>
-
+    <div className="space-y-4">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>Country Currency Configuration</CardTitle>
               <CardDescription>
-                Manage country-currency pairs with payin and payout partners
+                Create and configure country-currency pairs with payin/payout partners
               </CardDescription>
             </div>
             <Button>

@@ -13,11 +13,25 @@ function delay(ms = MOCK_DELAY_MS): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** OTP required for admin login in mock mode */
+export const MOCK_ADMIN_OTP = "123456";
+
 /**
- * Mock login - accepts any email/password, returns mock token and user.
+ * Mock login - accepts any email/password, but OTP must be "123456".
  */
 export async function mockLogin(payload: LoginDTO): Promise<IAPIResponse> {
   await delay();
+
+  const otp = payload.otp?.trim() ?? "";
+  if (otp !== MOCK_ADMIN_OTP) {
+    return {
+      error: true,
+      data: null,
+      message: "Invalid OTP. Use 123456 for mock login.",
+      errors: ["OTP must be 123456"],
+      status: 401,
+    };
+  }
 
   const mockUserId = `mock_admin_${Date.now()}`;
   const mockToken = `mock_token_${Date.now()}_${Math.random().toString(36).slice(2)}`;

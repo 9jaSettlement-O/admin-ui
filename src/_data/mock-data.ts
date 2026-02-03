@@ -3,6 +3,21 @@
  * Used when VITE_USE_MOCK_SERVICES is true or in DEV without API.
  */
 
+/** Extended user for detail view */
+export interface MockUserDetail {
+  id: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  email: string;
+  phone?: string;
+  country?: string;
+  kycStatus: string;
+  accountStatus?: string;
+  dob?: string;
+  address?: string;
+}
+
 export const mockUsers = [
   {
     id: "1",
@@ -42,6 +57,61 @@ export const mockUsers = [
   },
 ];
 
+/** Extended user details for UserDetailPage */
+export const mockUserDetails: MockUserDetail[] = [
+  {
+    id: "1",
+    firstName: "John",
+    lastName: "Doe",
+    middleName: "Robert",
+    email: "john.doe@example.com",
+    phone: "+1 234 567 8901",
+    country: "United States",
+    kycStatus: "Tier 2 Verified",
+    accountStatus: "Active",
+    dob: "1985-06-15",
+    address: "123 Main St, Apt 4B, New York, NY 10001, USA",
+  },
+  {
+    id: "2",
+    firstName: "Jane",
+    lastName: "Smith",
+    middleName: "Marie",
+    email: "jane.smith@example.com",
+    phone: "+1 234 567 8902",
+    country: "Canada",
+    kycStatus: "Tier 1 Verified",
+    accountStatus: "Active",
+    dob: "1990-03-22",
+    address: "456 Oak Ave, Toronto, ON M5V 1A1, Canada",
+  },
+  {
+    id: "3",
+    firstName: "Michael",
+    lastName: "Johnson",
+    middleName: "James",
+    email: "michael.johnson@example.com",
+    phone: "+1 234 567 8903",
+    country: "United Kingdom",
+    kycStatus: "Awaiting KYC Review",
+    accountStatus: "Active",
+    dob: "1988-11-08",
+    address: "78 Baker St, London W1U 3AB, UK",
+  },
+  {
+    id: "4",
+    firstName: "Emily",
+    lastName: "Williams",
+    email: "emily.williams@example.com",
+    phone: "+1 234 567 8904",
+    country: "Australia",
+    kycStatus: "Unverified",
+    accountStatus: "Active",
+    dob: "1992-07-14",
+    address: "12 Collins St, Melbourne VIC 3000, Australia",
+  },
+];
+
 export const mockBusinesses = [
   {
     id: "1",
@@ -67,36 +137,35 @@ export const mockBusinesses = [
     country: "Kenya",
     kybStatus: "Awaiting KYB Review",
   },
+  {
+    id: "4",
+    name: "West Africa Commerce",
+    email: "info@westafricacomm.com",
+    phone: "+233 546 123 4567",
+    country: "Ghana",
+    kybStatus: "Unverified",
+  },
+];
+
+export const mockVirtualAccounts = [
+  { id: "1", accountName: "John Doe", accountNumber: "1234567890", bankName: "GTBank", currency: "NGN", status: "Active" },
+  { id: "2", accountName: "Jane Smith", accountNumber: "0987654321", bankName: "Access Bank", currency: "NGN", status: "Active" },
+  { id: "3", accountName: "Tech Solutions Ltd", accountNumber: "1122334455", bankName: "Zenith Bank", currency: "NGN", status: "Pending" },
+];
+
+export const mockSettlements = [
+  { id: "1", reference: "SET-001", amount: "₦1,500,000", status: "Completed", date: "2023-05-22", beneficiary: "John Doe" },
+  { id: "2", reference: "SET-002", amount: "₦850,000", status: "Pending", date: "2023-05-23", beneficiary: "Jane Smith" },
+  { id: "3", reference: "SET-003", amount: "₦2,100,000", status: "Processing", date: "2023-05-21", beneficiary: "Tech Solutions Ltd" },
 ];
 
 export const mockTransactions = [
-  {
-    id: "123456",
-    userEmail: "john.doe@example.com",
-    type: "Deposit",
-    sourceAmount: "$1,000.00",
-    destinationAmount: "$1,000.00",
-    status: "Completed",
-    date: "2023-05-22",
-  },
-  {
-    id: "123457",
-    userEmail: "jane.smith@example.com",
-    type: "Withdrawal",
-    sourceAmount: "$500.00",
-    destinationAmount: "$495.00",
-    status: "Pending",
-    date: "2023-05-22",
-  },
-  {
-    id: "123458",
-    userEmail: "michael.johnson@example.com",
-    type: "Transfer",
-    sourceAmount: "$750.00",
-    destinationAmount: "$742.50",
-    status: "Completed",
-    date: "2023-05-21",
-  },
+  { id: "123456", userEmail: "john.doe@example.com", type: "Deposit", sourceAmount: "$1,000.00", destinationAmount: "$1,000.00", status: "Completed", date: "2023-05-22" },
+  { id: "123457", userEmail: "jane.smith@example.com", type: "Withdrawal", sourceAmount: "$500.00", destinationAmount: "$495.00", status: "Pending", date: "2023-05-22" },
+  { id: "123458", userEmail: "michael.johnson@example.com", type: "Transfer", sourceAmount: "$750.00", destinationAmount: "$742.50", status: "Completed", date: "2023-05-21" },
+  { id: "123459", userEmail: "emily.williams@example.com", type: "Deposit", sourceAmount: "$2,000.00", destinationAmount: "$2,000.00", status: "Completed", date: "2023-05-21" },
+  { id: "123460", userEmail: "david.brown@example.com", type: "Withdrawal", sourceAmount: "$1,500.00", destinationAmount: "$1,485.00", status: "Failed", date: "2023-05-20" },
+  { id: "123461", userEmail: "sarah.miller@example.com", type: "Transfer", sourceAmount: "$300.00", destinationAmount: "$297.00", status: "Completed", date: "2023-05-20" },
 ];
 
 export const mockAgents = [
@@ -137,4 +206,240 @@ export const mockAgentTiers = [
     duration: "1 year",
     status: "Active",
   },
+  {
+    id: "3",
+    tierName: "Gold Tier",
+    minVolume: 15001,
+    maxVolume: 50000,
+    commissionPerCAD: 0.12,
+    duration: "1 year",
+    status: "Active",
+  },
+];
+
+/** Extended business for detail view */
+export interface MockBusinessDetail {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  country: string;
+  kybStatus: string;
+  accountStatus?: string;
+  registrationNumber?: string;
+  businessType?: string;
+  owner?: {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+    dob?: string;
+    address?: string;
+  };
+}
+
+export const mockBusinessDetails: MockBusinessDetail[] = [
+  {
+    id: "1",
+    name: "Tech Solutions Ltd",
+    email: "admin@techsolutions.com",
+    phone: "+234 803 456 7890",
+    country: "Nigeria",
+    kybStatus: "Verified",
+    accountStatus: "Active",
+    registrationNumber: "RC-123456",
+    businessType: "Technology Services",
+    owner: {
+      firstName: "John",
+      middleName: "Chukwu",
+      lastName: "Okafor",
+      email: "john.okafor@techsolutions.com",
+      phone: "+234 803 456 7890",
+      dob: "1985-06-15",
+      address: "123 Lekki Road, Ikoyi, Lagos, Nigeria",
+    },
+  },
+  {
+    id: "2",
+    name: "Global Innovations Inc",
+    email: "contact@globalinnovations.com",
+    phone: "+234 805 123 4567",
+    country: "Nigeria",
+    kybStatus: "Verified",
+    accountStatus: "Active",
+    registrationNumber: "RC-789012",
+    businessType: "Consulting",
+    owner: {
+      firstName: "Sarah",
+      lastName: "Williams",
+      email: "sarah@globalinnovations.com",
+      dob: "1990-03-22",
+      address: "456 Oak Ave, Lagos, Nigeria",
+    },
+  },
+  {
+    id: "3",
+    name: "African Trade Partners",
+    email: "business@africantrade.com",
+    phone: "+254 712 345 6789",
+    country: "Kenya",
+    kybStatus: "Awaiting KYB Review",
+    accountStatus: "Active",
+    registrationNumber: "RC-KEN-456",
+    businessType: "Trading",
+    owner: {
+      firstName: "Michael",
+      lastName: "Ochieng",
+      email: "michael@africantrade.com",
+      dob: "1988-11-08",
+    },
+  },
+  {
+    id: "4",
+    name: "West Africa Commerce",
+    email: "info@westafricacomm.com",
+    country: "Ghana",
+    kybStatus: "Unverified",
+    accountStatus: "Active",
+  },
+];
+
+/** Extended virtual account for detail view */
+export interface MockVirtualAccountDetail {
+  id: string;
+  accountName: string;
+  accountNumber: string;
+  bankName: string;
+  currency: string;
+  status: string;
+  ownedBy?: string;
+  dateCreated?: string;
+  email?: string;
+  phoneNumber?: string;
+  settlementWallet?: string;
+}
+
+export const mockVirtualAccountDetails: MockVirtualAccountDetail[] = [
+  {
+    id: "1",
+    accountName: "John Doe",
+    accountNumber: "1234567890",
+    bankName: "GTBank",
+    currency: "NGN",
+    status: "Active",
+    ownedBy: "john.doe@example.com",
+    dateCreated: "2023-12-01 14:30:00",
+    email: "john.doe@example.com",
+    phoneNumber: "+1 234 567 8901",
+    settlementWallet: "0x1234567890abcdef1234567890abcdef12345678",
+  },
+  {
+    id: "2",
+    accountName: "Jane Smith",
+    accountNumber: "0987654321",
+    bankName: "Access Bank",
+    currency: "NGN",
+    status: "Active",
+    ownedBy: "jane.smith@example.com",
+    dateCreated: "2023-11-15 10:00:00",
+  },
+  {
+    id: "3",
+    accountName: "Tech Solutions Ltd",
+    accountNumber: "1122334455",
+    bankName: "Zenith Bank",
+    currency: "NGN",
+    status: "Pending",
+    ownedBy: "admin@techsolutions.com",
+    dateCreated: "2023-12-10 09:00:00",
+  },
+];
+
+/** Extended agent for detail view */
+export interface MockAgentDetail {
+  id: string;
+  email: string;
+  totalTransactions: number;
+  totalVolumeCAD: number;
+  lifetimeEarnings: number;
+  earningsThisWeek: number;
+  totalReferredUsers?: number;
+  verifiedUsers?: number;
+  earningsThisMonth?: number;
+  customerDetails?: Array<{
+    id: string;
+    customerName: string;
+    transactionVolume: number;
+    commissionEarned: number;
+    date: string;
+  }>;
+}
+
+export const mockAgentDetails: MockAgentDetail[] = [
+  {
+    id: "1",
+    email: "agent1@example.com",
+    totalTransactions: 245,
+    totalVolumeCAD: 125000,
+    lifetimeEarnings: 9375,
+    earningsThisWeek: 450,
+    totalReferredUsers: 28,
+    verifiedUsers: 24,
+    earningsThisMonth: 1250,
+    customerDetails: [
+      { id: "c1", customerName: "John Doe", transactionVolume: 5000, commissionEarned: 250, date: "2024-01-15" },
+      { id: "c2", customerName: "Jane Smith", transactionVolume: 8000, commissionEarned: 640, date: "2024-01-14" },
+      { id: "c3", customerName: "Mike Johnson", transactionVolume: 3000, commissionEarned: 240, date: "2024-01-12" },
+    ],
+  },
+  {
+    id: "2",
+    email: "agent2@example.com",
+    totalTransactions: 189,
+    totalVolumeCAD: 95000,
+    lifetimeEarnings: 7600,
+    earningsThisWeek: 320,
+    totalReferredUsers: 19,
+    verifiedUsers: 16,
+    earningsThisMonth: 950,
+    customerDetails: [
+      { id: "c4", customerName: "Sarah Williams", transactionVolume: 6000, commissionEarned: 480, date: "2024-01-14" },
+      { id: "c5", customerName: "Robert Brown", transactionVolume: 4500, commissionEarned: 360, date: "2024-01-13" },
+    ],
+  },
+];
+
+/** Super admin mock data */
+export const mockAdmins = [
+  { id: "1", name: "John Admin", email: "john.admin@9jasettlement.com", permissionLevel: 8, status: "Active", lastLogin: "2023-12-15 14:30:00", createdAt: "2023-01-15", actionsCount: 245 },
+  { id: "2", name: "Sarah Manager", email: "sarah.manager@9jasettlement.com", permissionLevel: 6, status: "Active", lastLogin: "2023-12-15 09:15:00", createdAt: "2023-03-20", actionsCount: 189 },
+  { id: "3", name: "Mike Support", email: "mike.support@9jasettlement.com", permissionLevel: 3, status: "Inactive", lastLogin: "2023-12-10 16:45:00", createdAt: "2023-06-10", actionsCount: 67 },
+  { id: "4", name: "Lisa Reviewer", email: "lisa.reviewer@9jasettlement.com", permissionLevel: 5, status: "Active", lastLogin: "2023-12-15 11:20:00", createdAt: "2023-08-05", actionsCount: 134 },
+];
+
+export const mockAdminActions = [
+  { id: "1", adminName: "John Admin", adminEmail: "john.admin@9jasettlement.com", action: "Approved KYC for user", target: "jane.doe@example.com", timestamp: "2023-12-15 14:25:00", ipAddress: "192.168.1.100", result: "Success" },
+  { id: "2", adminName: "Sarah Manager", adminEmail: "sarah.manager@9jasettlement.com", action: "Blocked user account", target: "suspicious.user@example.com", timestamp: "2023-12-15 13:45:00", ipAddress: "192.168.1.101", result: "Success" },
+  { id: "3", adminName: "Lisa Reviewer", adminEmail: "lisa.reviewer@9jasettlement.com", action: "Reviewed transaction", target: "TX123456", timestamp: "2023-12-15 12:30:00", ipAddress: "192.168.1.102", result: "Success" },
+  { id: "4", adminName: "Mike Support", adminEmail: "mike.support@9jasettlement.com", action: "Attempted to access restricted area", target: "Admin Settings", timestamp: "2023-12-15 10:00:00", ipAddress: "192.168.1.103", result: "Failed" },
+];
+
+export const mockLoginSessions = [
+  { id: "1", adminName: "John Admin", adminEmail: "john.admin@9jasettlement.com", loginTime: "2023-12-15 14:30:00", logoutTime: "Active", ipAddress: "192.168.1.100", userAgent: "Chrome 120.0.0.0", location: "New York, US" },
+  { id: "2", adminName: "Sarah Manager", adminEmail: "sarah.manager@9jasettlement.com", loginTime: "2023-12-15 09:15:00", logoutTime: "2023-12-15 17:30:00", ipAddress: "192.168.1.101", userAgent: "Firefox 121.0.0.0", location: "London, UK" },
+  { id: "3", adminName: "Lisa Reviewer", adminEmail: "lisa.reviewer@9jasettlement.com", loginTime: "2023-12-15 11:20:00", logoutTime: "Active", ipAddress: "192.168.1.102", userAgent: "Safari 17.1.2", location: "Toronto, CA" },
+];
+
+/** Routes and country-currency mock data */
+export const mockRoutes = [
+  { id: "1", sourceCurrency: "USD", destinationCurrency: "NGN", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "Stripe", payoutPartner: "Mobile Money" },
+  { id: "2", sourceCurrency: "EUR", destinationCurrency: "KES", status: "Draft", sendEnabled: true, swapEnabled: false, payinPartner: "Wise", payoutPartner: "Bank Transfer" },
+  { id: "3", sourceCurrency: "GBP", destinationCurrency: "GHS", status: "Published", sendEnabled: true, swapEnabled: true, payinPartner: "Stripe", payoutPartner: "Mobile Money" },
+];
+
+export const mockCountryCurrencies = [
+  { id: "1", country: "Nigeria", currency: "NGN", payinPartner: "IFX", payoutPartner: "Flutterwave", status: "Active" },
+  { id: "2", country: "Kenya", currency: "KES", payinPartner: "Clear Junction", payoutPartner: "Paystack", status: "Active" },
+  { id: "3", country: "Ghana", currency: "GHS", payinPartner: "Flutterwave", payoutPartner: "Bridge", status: "Inactive" },
 ];

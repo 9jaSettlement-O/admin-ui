@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { NotificationsModal } from "@/components/shared/notifications-modal";
 import {
   Line,
   XAxis,
@@ -17,7 +19,6 @@ import {
   CheckCircle,
   Clock,
   AlertCircle,
-  Bell,
 } from "lucide-react";
 
 const mainMetrics = [
@@ -173,6 +174,8 @@ const recentActivity = [
 ];
 
 export function DashboardPage() {
+  const [showNotifications, setShowNotifications] = useState(false);
+
   return (
     <div className="flex-1 space-y-6 p-4 pt-6 md:p-8">
       <div className="flex items-center justify-between">
@@ -183,12 +186,10 @@ export function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" className="relative">
-            <Bell className="h-4 w-4" />
-            <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-              3
-            </span>
-          </Button>
+          <NotificationsModal
+            open={showNotifications}
+            onOpenChange={setShowNotifications}
+          />
           <Button>View Complete Report</Button>
         </div>
       </div>

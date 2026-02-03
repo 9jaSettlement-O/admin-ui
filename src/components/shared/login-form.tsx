@@ -15,6 +15,7 @@ export function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ export function LoginForm() {
 
     try {
       const res = useMock
-        ? await mockLogin({ email, password })
+        ? await mockLogin({ email, password, otp })
         : await api.auth.login({ email, password });
 
       const token =
@@ -43,7 +44,7 @@ export function LoginForm() {
         toast.success("Login successful");
         navigate("/dashboard");
       } else {
-        setError("Invalid credentials. Please try again.");
+        setError(res.message || "Invalid credentials. Please try again.");
       }
     } catch (err) {
       if (useMock) {
@@ -100,9 +101,21 @@ export function LoginForm() {
             </Button>
           </div>
         </div>
+        <div className="space-y-2">
+          <Label htmlFor="otp">OTP</Label>
+          <Input
+            id="otp"
+            type="text"
+            placeholder="Enter 6-digit code"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            maxLength={6}
+            required
+          />
+        </div>
         {useMock && (
           <p className="text-xs text-muted-foreground">
-            Mock mode: any email and password will work.
+            Mock mode: use OTP <strong>123456</strong> to login.
           </p>
         )}
       </div>

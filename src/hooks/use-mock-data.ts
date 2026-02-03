@@ -61,3 +61,25 @@ export function useAgentTiers() {
     staleTime: 5 * 60 * 1000,
   });
 }
+
+export function useVirtualAccounts() {
+  const useMock = shouldUseMockService();
+
+  return useQuery({
+    queryKey: ["virtualAccounts"],
+    queryFn: () => mockDataService.getVirtualAccounts(),
+    enabled: useMock,
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useSettlements() {
+  const useMock = shouldUseMockService();
+
+  return useQuery({
+    queryKey: ["settlements"],
+    queryFn: () => mockDataService.getSettlements(),
+    enabled: useMock,
+    staleTime: 5 * 60 * 1000,
+  });
+}
