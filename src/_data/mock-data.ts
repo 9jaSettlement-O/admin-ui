@@ -424,6 +424,20 @@ export const mockVirtualAccountDetails: MockVirtualAccountDetail[] = [
 export interface MockAgentDetail {
   id: string;
   email: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  phone?: string;
+  dob?: string;
+  joinedAt?: string;
+  userId?: string;
+  agentTier?: string;
+  kycStatus?: string;
+  accountStatus?: string;
+  kycIdUrl?: string;
+  address?: string;
+  weeklyVolume?: number;
+  weeklyTransactions?: number;
   totalTransactions: number;
   totalVolumeCAD: number;
   lifetimeEarnings: number;
@@ -444,6 +458,20 @@ export const mockAgentDetails: MockAgentDetail[] = [
   {
     id: "1",
     email: "agent1@example.com",
+    firstName: "John",
+    middleName: "Michael",
+    lastName: "Anderson",
+    phone: "+234 701 234 5678",
+    dob: "5/15/1990",
+    joinedAt: "2024-01-15",
+    userId: "USR-001-9JA",
+    agentTier: "Tier 2 - Premium",
+    kycStatus: "Verified",
+    accountStatus: "Active",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_1",
+    address: "123 Lagos Street, Victoria Island, Lagos, Nigeria",
+    weeklyVolume: 150000,
+    weeklyTransactions: 12,
     totalTransactions: 245,
     totalVolumeCAD: 125000,
     lifetimeEarnings: 9375,
@@ -460,6 +488,20 @@ export const mockAgentDetails: MockAgentDetail[] = [
   {
     id: "2",
     email: "agent2@example.com",
+    firstName: "Amara",
+    middleName: "Chioma",
+    lastName: "Nwosu",
+    phone: "+234 802 345 6789",
+    dob: "8/22/1988",
+    joinedAt: "2024-02-20",
+    userId: "USR-002-9JA",
+    agentTier: "Tier 1 - Standard",
+    kycStatus: "Verified",
+    accountStatus: "Active",
+    kycIdUrl: "https://cockpit.sumsub.com/checkus#/applicant/usr_2",
+    address: "45 Adeola Odeku Street, Victoria Island, Lagos, Nigeria",
+    weeklyVolume: 95000,
+    weeklyTransactions: 8,
     totalTransactions: 189,
     totalVolumeCAD: 95000,
     lifetimeEarnings: 7600,

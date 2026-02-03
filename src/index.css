@@ -16,7 +16,8 @@
     --secondary-foreground: 24 12% 16%;
     --muted: 0 0% 89%;
     --muted-foreground: 0 0% 45%;
-    --accent: 209 89% 60%;
+    /* Deep grey for hover/selection (matches dropdown options) */
+    --accent: 217 33% 17%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -39,8 +40,9 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 24 12% 22%;
     --muted-foreground: 0 0% 60%;
-    --accent: 209 89% 60%;
-    --accent-foreground: 0 0% 10%;
+    /* Deep grey for hover/selection (matches dropdown options) */
+    --accent: 217 33% 17%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 24 12% 18%;
