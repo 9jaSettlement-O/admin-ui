@@ -90,8 +90,6 @@ export async function mockRegister(
       user: {
         id: mockUserId,
         email: payload.email,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
         type: "admin",
       },
     },

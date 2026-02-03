@@ -13,11 +13,8 @@ import storage from "@/utils/storage.util";
 
 export function SignupForm() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,13 +25,8 @@ export function SignupForm() {
     e.preventDefault();
     setError("");
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
     if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError("Temporary password must be at least 8 characters.");
       return;
     }
 
@@ -42,8 +34,8 @@ export function SignupForm() {
 
     try {
       const res = useMock
-        ? await mockRegister({ firstName, lastName, email, password })
-        : await api.auth.register({ firstName, lastName, email, password });
+        ? await mockRegister({ email, password })
+        : await api.auth.register({ email, password });
 
       const token =
         res.token ?? (res.data as { token?: string } | null)?.token;
@@ -70,34 +62,8 @@ export function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">First name</Label>
-            <Input
-              id="firstName"
-              type="text"
-              placeholder="John"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-              autoComplete="given-name"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Last name</Label>
-            <Input
-              id="lastName"
-              type="text"
-              placeholder="Doe"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-              autoComplete="family-name"
-            />
-          </div>
-        </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Email Address</Label>
           <Input
             id="email"
             type="email"
@@ -109,7 +75,7 @@ export function SignupForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">Temporary Password</Label>
           <div className="relative">
             <Input
               id="password"
@@ -138,19 +104,6 @@ export function SignupForm() {
               </span>
             </Button>
           </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirm password</Label>
-          <Input
-            id="confirmPassword"
-            type="password"
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            minLength={8}
-            autoComplete="new-password"
-          />
         </div>
       </div>
 

@@ -9,7 +9,7 @@ export function SignupPage() {
           <Logo className="mb-6" />
           <h1 className="mt-6 text-center text-2xl font-semibold">Create admin account</h1>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Enter your details to create an admin account
+            Enter your email and temporary password to create an admin account
           </p>
         </div>
         <SignupForm />
