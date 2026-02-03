@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { shouldUseMockService } from "@/lib/config";
-import { mockLogin, MOCK_ADMIN_OTP } from "@/services/mock";
+import { mockLogin } from "@/services/mock";
 import { api } from "@/api";
 import storage from "@/utils/storage.util";
 
@@ -121,11 +121,6 @@ export function LoginForm() {
             autoComplete="one-time-code"
           />
         </div>
-        {useMock && (
-          <p className="text-xs text-muted-foreground">
-            Mock mode: use OTP <strong>{MOCK_ADMIN_OTP}</strong> to login.
-          </p>
-        )}
       </div>
 
       {error && (

@@ -40,8 +40,8 @@ export async function mockLogin(payload: LoginDTO): Promise<IAPIResponse> {
     return {
       error: true,
       data: null,
-      message: "Invalid OTP. Use 123456 for mock login.",
-      errors: ["OTP must be 123456"],
+      message: "Invalid credentials. Please try again.",
+      errors: [],
       status: 401,
     };
   }

@@ -39,7 +39,7 @@ export function Setup2FAStepContent({ email, onSuccess }: Setup2FAStepContentPro
       return;
     }
     if (useMock && code !== MOCK_2FA_SETUP_CODE) {
-      setError(`Invalid code. Use ${MOCK_2FA_SETUP_CODE} for mock setup.`);
+      setError("Invalid code. Please try again.");
       return;
     }
     setIsLoading(true);
@@ -90,12 +90,6 @@ export function Setup2FAStepContent({ email, onSuccess }: Setup2FAStepContentPro
             className="text-center text-lg tracking-[0.5em]"
           />
         </div>
-
-        {useMock && (
-          <p className="text-xs text-muted-foreground">
-            Mock mode: use code <strong>{MOCK_2FA_SETUP_CODE}</strong> to complete setup.
-          </p>
-        )}
 
         {error && (
           <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
