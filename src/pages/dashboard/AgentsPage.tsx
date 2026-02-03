@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Search, Plus, Eye, Edit2, Trash2 } from "lucide-react";
+import { Search, Plus, Eye, Edit2, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,9 +35,10 @@ import { shouldUseMockService } from "@/lib/config";
 import { useAgents } from "@/hooks/use-mock-data";
 import { mockAgents, mockAgentTiers } from "@/_data/mock-data";
 
-type AgentPeriod = "today" | "week" | "month" | "year" | "custom";
+type AgentPeriod = "all" | "today" | "week" | "month" | "year" | "custom";
 
 const PERIOD_LABELS: Record<AgentPeriod, string> = {
+  all: "All time",
   today: "Today",
   week: "This week",
   month: "This month",
@@ -58,6 +59,8 @@ function isDateInAgentPeriod(
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
   switch (period) {
+    case "all":
+      return true;
     case "today":
       return dateStr === todayStr;
     case "week": {
@@ -91,15 +94,17 @@ export function AgentsPage() {
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [searchTerm, setSearchTerm] = useState("");
   const [showCreateTierModal, setShowCreateTierModal] = useState(false);
-  const [period, setPeriod] = useState<AgentPeriod>("month");
+  const [period, setPeriod] = useState<AgentPeriod>("all");
   const [showCustomRange, setShowCustomRange] = useState(false);
   const [customStart, setCustomStart] = useState("");
   const [customEnd, setCustomEnd] = useState("");
   const [tiers, setTiers] = useState(mockAgentTiers);
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
 
-  // Use dummy data when API is not available (mock mode off), fails, or returns empty
+  // Use query data when available; otherwise fall back to mock agents (e.g. loading, error, or mock disabled)
   const agents =
-    useMock && !isError && agentsFromQuery != null && Array.isArray(agentsFromQuery) && agentsFromQuery.length > 0
+    useMock && !isError && Array.isArray(agentsFromQuery) && agentsFromQuery.length > 0
       ? agentsFromQuery
       : mockAgents;
   const tiersData = tiers;
@@ -112,11 +117,17 @@ export function AgentsPage() {
     return matchesSearch && matchesPeriod;
   });
 
+  const totalPages = Math.max(1, Math.ceil(filteredAgents.length / pageSize));
+  const paginatedAgents = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filteredAgents.slice(start, start + pageSize);
+  }, [filteredAgents, page, pageSize]);
+
   const agentStats = [
-    { name: "Total Agents", value: String(filteredAgents.length) },
-    { name: "Total Transactions", value: String(filteredAgents.reduce((s, a) => s + a.totalTransactions, 0)) },
-    { name: "Total Volume (CAD)", value: `₦${filteredAgents.reduce((s, a) => s + a.totalVolumeCAD, 0).toLocaleString()}` },
-    { name: "Total Payouts (₦)", value: `₦${filteredAgents.reduce((s, a) => s + a.lifetimeEarnings, 0).toLocaleString()}` },
+    { name: "Total Agents", value: String(agentList.length) },
+    { name: "Total Transactions", value: String(agentList.reduce((s, a) => s + a.totalTransactions, 0)) },
+    { name: "Total Volume (CAD)", value: `${agentList.reduce((s, a) => s + a.totalVolumeCAD, 0).toLocaleString()} CAD` },
+    { name: "Total Payouts (₦)", value: `₦${agentList.reduce((s, a) => s + a.lifetimeEarnings, 0).toLocaleString()}` },
   ];
 
   const handleCreateTier = (tierData: {
@@ -136,12 +147,14 @@ export function AgentsPage() {
   };
 
   const handlePeriodChange = (value: string) => {
+    setPage(1);
     if (value === "custom") setShowCustomRange(true);
     else setPeriod(value as AgentPeriod);
   };
 
   const handleApplyCustomRange = () => {
     if (customStart && customEnd) {
+      setPage(1);
       setPeriod("custom");
       setShowCustomRange(false);
     }
@@ -152,13 +165,14 @@ export function AgentsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Agents</h2>
-          <p className="text-muted-foreground">Agents referring Nigerian diaspora for CAD ↔ NGN remittance</p>
+          <p className="text-muted-foreground">Manage agent commission tiers and monitor performance.</p>
         </div>
         <Select value={period} onValueChange={handlePeriodChange}>
           <SelectTrigger className="w-[160px]">
             <SelectValue placeholder="Date range" />
           </SelectTrigger>
-          <SelectContent>
+            <SelectContent>
+            <SelectItem value="all">{PERIOD_LABELS.all}</SelectItem>
             <SelectItem value="today">{PERIOD_LABELS.today}</SelectItem>
             <SelectItem value="week">{PERIOD_LABELS.week}</SelectItem>
             <SelectItem value="month">{PERIOD_LABELS.month}</SelectItem>
@@ -193,14 +207,24 @@ export function AgentsPage() {
               <CardTitle>Agents List & Performance</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="mb-6 flex w-full items-center space-x-2">
-                <Search className="h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search by agent email..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="h-9"
-                />
+              <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex w-full items-center space-x-2 sm:w-80">
+                  <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <Input
+                    placeholder="Search by agent email..."
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setPage(1);
+                    }}
+                    className="h-9"
+                  />
+                </div>
+                {filteredAgents.length > pageSize && (
+                  <p className="text-sm text-muted-foreground">
+                    Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, filteredAgents.length)} of {filteredAgents.length}
+                  </p>
+                )}
               </div>
 
               <div className="rounded-md border">
@@ -219,14 +243,14 @@ export function AgentsPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredAgents.length === 0 ? (
+                      {paginatedAgents.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={6} className="h-24 text-center">
                             No agents found.
                           </TableCell>
                         </TableRow>
                       ) : (
-                        filteredAgents.map((agent) => (
+                        paginatedAgents.map((agent) => (
                           <TableRow key={agent.id} className="hover:bg-muted/50">
                             <TableCell className="font-medium">{agent.email}</TableCell>
                             <TableCell className="text-right">{agent.totalTransactions}</TableCell>
@@ -250,6 +274,34 @@ export function AgentsPage() {
                   </Table>
                 )}
               </div>
+
+              {filteredAgents.length > pageSize && totalPages > 1 && (
+                <div className="mt-4 flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    Page {page} of {totalPages}
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page <= 1}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      Previous
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={page >= totalPages}
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
