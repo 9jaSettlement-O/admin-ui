@@ -1,10 +1,8 @@
 # 9jaSettlement Admin UI
 
-Admin dashboard for 9jaSettlement. Built with **Next.js**, **React**, **TypeScript**, **Tailwind CSS**, and **pnpm**.
+Admin dashboard for 9jaSettlement. Built as a **React + TypeScript** app with **Vite**, **React Router**, **Tailwind CSS**, and **pnpm**.
 
-## Reference
-
-Structure and patterns follow [9jasettlement-admin-dashboard](../9jasettlement-admin-dashboard/) in this repo.
+**Reference:** The UI and flows are inspired by **9jasettlement-admin-dashboard** (Next.js); this project is a standalone React TypeScript application, not a Next.js app.
 
 ## Setup
 
@@ -12,47 +10,69 @@ Structure and patterns follow [9jasettlement-admin-dashboard](../9jasettlement-a
 pnpm install
 ```
 
-## Scripts
+## Scripts...
 
-- `pnpm dev` — Start development server (default: http://localhost:3000)
-- `pnpm build` — Build for production
-- `pnpm start` — Start production server
+- `pnpm dev` — Start Vite dev server (default: http://localhost:5173)
+- `pnpm build` — Type-check and build for production
+- `pnpm preview` — Preview production build locally
 - `pnpm lint` — Run ESLint
 
 ## Folder structure
 
 ```
 admin-ui/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout (theme, fonts)
-│   ├── page.tsx            # Home / login entry
-│   ├── globals.css         # Tailwind + CSS variables
-│   └── dashboard/          # Dashboard routes
-│       └── page.tsx
-├── components/
-│   ├── theme-provider.tsx  # next-themes
-│   └── ui/                 # Shared UI (button, card, …)
-├── hooks/
-│   └── use-mobile.ts
-├── lib/
-│   └── utils.ts            # cn() etc.
+├── index.html              # Entry HTML
+├── src/
+│   ├── main.tsx            # React root + BrowserRouter
+│   ├── App.tsx             # Route definitions
+│   ├── index.css           # Tailwind + CSS variables
+│   ├── pages/              # Route-level components
+│   │   ├── LoginPage.tsx
+│   │   ├── SignupPage.tsx
+│   │   └── dashboard/      # Dashboard sub-routes
+│   ├── components/
+│   │   ├── layouts/        # DashboardLayout (sidebar + Outlet)
+│   │   ├── shared/         # Logo, LoginForm
+│   │   └── ui/             # Button, Card, Sheet, Input, Label, Badge
+│   ├── api/                # API client layer (paradigm)
+│   ├── services/           # Business logic (paradigm)
+│   ├── store/              # Global state (paradigm)
+│   ├── dtos/               # Data transfer types (paradigm)
+│   ├── types/              # Shared types (paradigm)
+│   ├── utils/              # Helpers (paradigm)
+│   ├── _data/              # Static/mock data (paradigm)
+│   ├── lib/                # cn() etc.
+│   └── hooks/              # use-mobile, etc.
 ├── public/
 ├── package.json
+├── vite.config.ts
 ├── tsconfig.json
-├── next.config.mjs
 ├── tailwind.config.ts
 └── postcss.config.mjs
 ```
 
 ## Stack
 
-- **Next.js 15** (App Router)
-- **React 19**
-- **TypeScript**
+- **Vite 6** — Build tool and dev server
+- **React 18** + **TypeScript**
+- **React Router 7** — Client-side routing (/, /auth/signup, /dashboard, /dashboard/users, …)
 - **Tailwind CSS** + `tailwindcss-animate`
-- **next-themes** (light/dark)
-- **Radix Slot** (Button asChild)
-- **class-variance-authority** (button variants)
-- **clsx** + **tailwind-merge** (className utils)
+- **Radix UI** — Dialog (Sheet), Label, Slot
+- **Recharts** — Dashboard charts
+- **class-variance-authority** — Component variants
+- **clsx** + **tailwind-merge** — className utils
 
-Add more UI from the reference dashboard (sidebar, charts, tables, auth) as needed.
+## Routes
+
+- `/` — Login
+- `/auth/signup` — Create admin account (placeholder)
+- `/dashboard` — Analytics (metrics, charts, recent activity)
+- `/dashboard/users` — Users (placeholder)
+- `/dashboard/businesses` — Businesses (placeholder)
+- `/dashboard/agents` — Agents (placeholder)
+- `/dashboard/transactions` — Transactions (placeholder)
+- `/dashboard/virtual-accounts` — Virtual accounts (placeholder)
+- `/dashboard/settlements` — Settlements (placeholder)
+- `/dashboard/country-currency-config` — Country/currency config (placeholder)
+- `/dashboard/settings` — Settings (placeholder)
+- `/dashboard/superadmin` — Super admin (placeholder)
