@@ -33,6 +33,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        env:
+          VITE_USE_MOCK_SERVICES: "true"
         run: pnpm run build
 
       - name: SPA fallback for client-side routing
