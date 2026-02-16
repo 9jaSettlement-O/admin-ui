@@ -13,9 +13,11 @@ export const appConfig = {
   apiTimeout: 30000,
 
   features: {
-    /** Use mock services when true (env flag) or in development when API URL is not set */
+    /** Use mock services when: env flag set, or in dev without API URL, or in production without API URL (e.g. GitHub Pages) */
     enableMockServices:
-      env.VITE_USE_MOCK_SERVICES || (env.DEV && !env.VITE_APP_API_URL),
+      env.VITE_USE_MOCK_SERVICES ||
+      (env.DEV && !env.VITE_APP_API_URL) ||
+      (env.PROD && !env.VITE_APP_API_URL),
   },
 } as const;
 
