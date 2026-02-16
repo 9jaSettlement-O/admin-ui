@@ -10,7 +10,7 @@ Admin dashboard for 9jaSettlement. Built as a **React + TypeScript** app with **
 pnpm install
 ```
 
-## Scripts
+## Scripts...
 
 - `pnpm dev` — Start Vite dev server (default: http://localhost:5173)
 - `pnpm build` — Type-check and build for production
