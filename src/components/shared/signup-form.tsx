@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { shouldUseMockService } from "@/lib/config";
-import { mockRegister } from "@/services/mock";
+import { mockRegister, MOCK_TEMP_PASSWORD } from "@/services/mock";
 import { api } from "@/api";
 import storage from "@/utils/storage.util";
 
@@ -93,11 +93,16 @@ export function SignupForm({ embedded = false, onSuccess }: SignupFormProps) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Temporary Password</Label>
+          {useMock && (
+            <p className="text-xs text-muted-foreground">
+              Demo: use any 8+ character password (e.g. <code className="rounded bg-muted px-1">{MOCK_TEMP_PASSWORD}</code>)
+            </p>
+          )}
           <div className="relative">
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Enter temporary password"
+              placeholder={useMock ? MOCK_TEMP_PASSWORD : "Enter temporary password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

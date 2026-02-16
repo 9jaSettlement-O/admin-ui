@@ -19,6 +19,9 @@ export const MOCK_RESET_TOKEN = "mock-reset-token-12345";
 /** OTP required for admin login in mock mode */
 export const MOCK_ADMIN_OTP = "123456";
 
+/** Temporary password for create-account step in mock mode (any 8+ character password works; this is the suggested one) */
+export const MOCK_TEMP_PASSWORD = "TempPass1";
+
 /**
  * Mock login - accepts any email/password, but OTP must be "123456".
  */
