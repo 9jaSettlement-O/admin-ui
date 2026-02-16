@@ -60,19 +60,19 @@ export function AuthOnboardingLayout({
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start bg-background px-4 pb-8 pt-8">
-      <div className={`flex w-full flex-col ${maxWidthClasses[maxWidth]}`}>
-        <div className="mb-8 flex flex-shrink-0 flex-col items-center">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-8">
+      <div className={`flex w-full flex-col items-center ${maxWidthClasses[maxWidth]}`}>
+        <div className="mb-6 flex flex-shrink-0 flex-col items-center">
           <Logo className="mb-6" />
         </div>
 
         {steps.length > 0 && (
-          <div className="mb-8 flex-shrink-0 px-4">
+          <div className="mb-6 flex-shrink-0 w-full px-4">
             <ProgressStepper steps={steps} />
           </div>
         )}
 
-        <div className="relative flex-1 w-full">
+        <div className="relative w-full">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentStep}

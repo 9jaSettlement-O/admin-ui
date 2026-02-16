@@ -6,6 +6,7 @@ export {
   mockResetPassword,
   MOCK_RESET_TOKEN,
   MOCK_ADMIN_OTP,
+  MOCK_TEMP_PASSWORD,
   MOCK_2FA_SETUP_CODE,
 } from "./auth-mock.service";
 export { mockDataService } from "./data-mock.service";
