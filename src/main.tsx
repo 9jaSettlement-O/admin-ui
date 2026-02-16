@@ -9,7 +9,7 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/admin-ui">
         <App />
         <Toaster richColors position="top-right" />
       </BrowserRouter>
