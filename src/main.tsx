@@ -9,7 +9,7 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryProvider>
-      <Router basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+      <Router>
         <App />
         <Toaster richColors position="top-right" />
       </Router>
