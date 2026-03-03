@@ -1,0 +1,21 @@
+# AWS Amplify build spec for admin-ui (served at app root, e.g. *.amplifyapp.com/)
+# Ensures VITE_BASE_PATH=/ so assets load correctly and the app does not show a blank page.
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - corepack enable
+            - corepack prepare pnpm@latest --activate
+            - pnpm install --frozen-lockfile
+        build:
+          commands:
+            - VITE_BASE_PATH=/ pnpm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - node_modules/**/*

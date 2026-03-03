@@ -35,6 +35,8 @@ jobs:
       - name: Build
         env:
           VITE_USE_MOCK_SERVICES: "true"
+          # Base path must match GitHub Pages URL: https://<user>.github.io/<repo-name>/
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: pnpm run build
 
       - name: SPA fallback for client-side routing
