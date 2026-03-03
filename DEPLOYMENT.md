@@ -4,7 +4,7 @@
 
 ### How deployment works
 
-- **Trigger:** Pushing to the **`main`** branch runs the "Deploy to GitHub Pages" workflow.
+- **Trigger:** Pushing to the **`main`** or **`temitope9js`** branch runs the "Deploy to GitHub Pages" workflow.
 - **What gets deployed:** The workflow builds the app and publishes the `dist/` output to GitHub Pages. The live site is whatever was last successfully built from **`main`** on **this repository**.
 
 ### Aligning the repo you push to with the live site
@@ -24,7 +24,17 @@ If the dashboard or latest changes don’t show on the live site, it’s usually
    - **Actions** tab: open the "Deploy to GitHub Pages" workflow. The run that deployed the current site is the one from the **repository and branch** shown there (e.g. `main`).  
    - **Settings → Pages**: note the published URL. That URL is always tied to **this** repo; pushing to another repo will not change this URL’s content.
 
-**Summary:** To see your dashboard and latest changes on GitHub Pages, push to **`main`** on the **same repository** that has Pages enabled and is set to use **GitHub Actions**. That way the "link you push to" and the "link that is deployed" are the same.
+**Summary:** To see your dashboard and latest changes on GitHub Pages, push to **`main`** or **`temitope9js`** on the **same repository** that has Pages enabled and is set to use **GitHub Actions**. That way the "link you push to" and the "link that is deployed" are the same.
+
+### Clickable link after push
+
+When you run `git push origin temitope9js`, the line `To github.com:9jaSettlement-O/admin-ui.git` is in **SSH form**, so many terminals (including Cursor’s) don’t turn it into a clickable link. To get a link you can click, run:
+
+```bash
+pnpm run repo-url
+```
+
+This prints the repo URL in HTTPS form and the GitHub Pages URL, which most terminals will linkify.
 
 ### Base URL
 
