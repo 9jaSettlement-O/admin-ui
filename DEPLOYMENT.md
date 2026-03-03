@@ -46,6 +46,28 @@ For example, if the repo is `admin-ui`, the URL is `https://<owner>.github.io/ad
 
 ---
 
+## AWS Amplify (fix for blank page)
+
+If the app is deployed at the **root** of an Amplify URL (e.g. `https://temitope9js.d3bjewjvqcsuyj.amplifyapp.com/`), the build **must** use base path **`/`**. Otherwise the bundle asks for assets at `/admin-ui/assets/...`, which don’t exist at that path, and the page stays blank.
+
+**Fix for DevOps:** Set the build to use base path `/`:
+
+1. **Amplify Console** → your app → **Hosting** (or **Build settings** / **Environment variables**).
+2. Add an **environment variable** for the build:
+   - **Name:** `VITE_BASE_PATH`
+   - **Value:** `/`
+3. **Redeploy** (trigger a new build, or push a commit so Amplify rebuilds).
+
+If the build is configured in the Amplify Console as a single command (e.g. `pnpm run build`), you can instead set the variable in the build command:
+
+```bash
+VITE_BASE_PATH=/ pnpm run build
+```
+
+After the next successful build, the app at e.g. `https://temitope9js.d3bjewjvqcsuyj.amplifyapp.com/` should load correctly.
+
+---
+
 ## AWS (e.g. S3 + CloudFront)
 
 If the app is deployed at the **root** of the domain (e.g. `https://admin.example.com/`), the build must use base path **`/`**. Otherwise assets are requested under a subpath and you get a blank page.
