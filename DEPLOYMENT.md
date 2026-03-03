@@ -4,7 +4,7 @@
 
 ### How deployment works
 
-- **Trigger:** Pushing to the **`main`** or **`temitope9js`** branch runs the "Deploy to GitHub Pages" workflow.
+- **Trigger:** Pushing to the **`main`** branch runs the "Deploy to GitHub Pages" workflow.
 - **What gets deployed:** The workflow builds the app and publishes the `dist/` output to GitHub Pages. The live site is whatever was last successfully built from **`main`** on **this repository**.
 
 ### Aligning the repo you push to with the live site
@@ -12,8 +12,8 @@
 If the dashboard or latest changes don’t show on the live site, it’s usually because a different branch or repo is being used.
 
 1. **Push to the branch that triggers the workflow**  
-   The workflow is configured to run only on **`main`**. Pushing to `master`, `develop`, or any other branch will **not** update the GitHub Pages site.  
-   - Ensure your default branch is `main`, or always push/merge to `main` when you want to update the live site.
+   The workflow is configured to run only on **`main`**. Pushing to `temitope9js`, `master`, `develop`, or any other branch will **not** update the GitHub Pages site.  
+   - To update the live site, merge your branch into `main` and push, or push directly to `main`.
 
 2. **Use the same repo that hosts GitHub Pages**  
    - In GitHub: **Settings → Pages**. Under "Build and deployment", the source should be **"GitHub Actions"** (not "Deploy from a branch").  
@@ -24,7 +24,19 @@ If the dashboard or latest changes don’t show on the live site, it’s usually
    - **Actions** tab: open the "Deploy to GitHub Pages" workflow. The run that deployed the current site is the one from the **repository and branch** shown there (e.g. `main`).  
    - **Settings → Pages**: note the published URL. That URL is always tied to **this** repo; pushing to another repo will not change this URL’s content.
 
-**Summary:** To see your dashboard and latest changes on GitHub Pages, push to **`main`** or **`temitope9js`** on the **same repository** that has Pages enabled and is set to use **GitHub Actions**. That way the "link you push to" and the "link that is deployed" are the same.
+**Summary:** To see your dashboard and latest changes on GitHub Pages, push to **`main`** on the **same repository** that has Pages enabled and is set to use **GitHub Actions**. That way the "link you push to" and the "link that is deployed" are the same.
+
+### "Branch not allowed to deploy" / environment protection rules
+
+If the workflow runs but the deploy step fails with:
+
+- **"Branch 'temitope9js' is not allowed to deploy to github-pages due to environment protection rules"**
+- **"The deployment was rejected or didn't satisfy other protection rules"**
+
+then the **`github-pages`** environment has protection rules that limit which branches can deploy (often only `main`). You can either:
+
+- **Option A (recommended):** Deploy to GitHub Pages only from `main`. Merge your branch into `main` when you want to update the live site. The workflow is set to trigger only on `main`, so this is the default.
+- **Option B:** Allow another branch (e.g. `temitope9js`) to deploy. A **repo admin** must go to **Settings → Environments → github-pages** → under "Deployment protection rules" or "Deployment branch" add the branch (e.g. `temitope9js`) to the allowed list, or relax the rule so the branch that triggered the workflow can deploy. Until that is done, the deploy step will keep failing for that branch.
 
 ### Clickable link after push
 
