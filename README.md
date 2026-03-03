@@ -51,6 +51,13 @@ admin-ui/
 └── postcss.config.mjs
 ```
 
+## Deployment
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for:
+
+- **GitHub Pages:** Pushing to `main` on the repo that has Pages enabled (with source "GitHub Actions") so the live site matches your pushes.
+- **AWS:** Using `VITE_BASE_PATH=/` when building if the app is served at domain root (avoids blank page).
+
 ## Stack
 
 - **Vite 6** — Build tool and dev server
